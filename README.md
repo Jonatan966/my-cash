@@ -1,11 +1,5 @@
 <p align="center">
   <img src="src/assets/logo.svg" width="275">
-
-  <br>
-  <a href="#-sobre">Sobre</a> •
-  <a href="#-demonstração">Demonstração</a> •
-  <a href="#-como-iniciar">Como iniciar</a> •
-  <a href="#-tecnologias">Tecnologias</a>
 </p>
 
 ---
