@@ -1,4 +1,22 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, keyframes } from "styled-components";
+
+const modalEnterAnimation = keyframes`
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(0vh);
+  }
+`
+
+const modalOutAnimation = keyframes`
+  from {
+    transform: translateY(0vh);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+`
 
 export const GlobalStyle = createGlobalStyle`
   :root {
@@ -59,6 +77,10 @@ export const GlobalStyle = createGlobalStyle`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @media (max-width: 820px) {
+      align-items: flex-end;
+    }
   }
 
   .react-modal-content {
@@ -68,6 +90,23 @@ export const GlobalStyle = createGlobalStyle`
     padding: 3rem;
     position: relative;
     border-radius: 0.25rem;
+    margin: 0 1rem;
+
+
+    @media (max-width: 820px) {
+      margin: 0;
+      border-radius: 1rem 1rem 0 0;
+      padding: 1.75rem;
+    }
+  }
+
+  .react-modal-closing {
+    animation: ${modalOutAnimation} 0.5s 1 ease-in-out;
+    
+  }
+
+  .react-modal-opening {
+    animation: ${modalEnterAnimation} 0.5s 1 ease-in-out;
   }
 
   .react-modal-close {

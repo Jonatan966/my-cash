@@ -20,7 +20,8 @@ export function NewTransactionModal({isOpen, onRequestClose}: NewTransactionModa
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       overlayClassName='react-modal-overlay'
-      className='react-modal-content'
+      className={`react-modal-content ${!isOpen ? 'react-modal-closing' : 'react-modal-opening'}`}
+      closeTimeoutMS={500}
     >
       <button
         type='button'

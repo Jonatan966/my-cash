@@ -11,14 +11,14 @@ export function TransactionsTable() {
   }, [])
 
   return (
-    <Container>
+    <Container itensCount={2}>
       <table>
         <thead>
           <tr>
-            <th>Título</th>
+            <th><span>Título</span></th>
             <th>Valor</th>
             <th>Categoria</th>
-            <th>Data</th>
+            <th><span>Data</span></th>
           </tr>
         </thead>
 
