@@ -9,8 +9,8 @@ Este projeto consiste em um gerenciador de finanças. Nele é possível registra
 
 ## :camera: Demonstração
 <p align="center">
-  <img src="github/inicio.png" width="45%">
-  <img src="github/inicio-modal.png" width="45%">
+  <img src="github/web.gif" width="50%">
+  <img src="github/mobile.gif" width="19%">
 </p>
 
 
