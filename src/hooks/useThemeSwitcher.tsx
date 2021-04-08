@@ -1,8 +1,9 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { ThemeContext, ThemeProvider } from "styled-components";
 
 import light from "../styles/themes/light";
 import dark from "../styles/themes/dark";
+import { usePersistedState } from "./usePersistedState";
 
 
 interface ThemeSwitcherProps {
@@ -13,18 +14,23 @@ interface ThemeSwitcherProviderProps {
   children: ReactNode;
 }
 
+const themes = {
+  light,
+  dark
+}
+
 const ThemeSwitcherContext = createContext<ThemeSwitcherProps>({} as ThemeSwitcherProps)
 
 export function ThemeSwitcherProvider({children}: ThemeSwitcherProviderProps) {
-  const [theme, setTheme] = useState(light);
+  const [theme, setTheme] = usePersistedState('@DtMoney:theme', 'light');
 
   function toggleTheme() {
-    setTheme(theme.title === 'light' ? dark : light);
+    setTheme(theme === 'light' ? 'dark' : 'light');
   }
 
   return (
     <ThemeSwitcherContext.Provider value={{toggleTheme}}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={themes[theme as 'light' | 'dark']}>
         {children}
       </ThemeProvider>
     </ThemeSwitcherContext.Provider>
