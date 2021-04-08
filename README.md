@@ -28,5 +28,5 @@ Este projeto consiste em um gerenciador de finanças. Nele é possível registra
 As tecnologias principais utilizadas neste projeto são as seguintes:
 - React
 - Styled Components
-- Miragejs
-- Axios
+- IndexedDB
+- Dexie
