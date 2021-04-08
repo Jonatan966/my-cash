@@ -1,45 +1,39 @@
 import { useContext } from "react";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { api } from "../services/api";
+import { ITransaction } from "../interfaces/Transactions";
+import { useDatabase } from "./useDatabase";
 
-interface Transaction {
-  id: string,
-  title: string,
-  amount: number,
-  category: string,
-  type: 'deposit' | 'withdraw',
-  createdAt: string
-}
-
-type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
+type TransactionInput = Omit<ITransaction, 'id' | 'createdAt'>;
 
 interface TransactionsProviderProps {
   children: ReactNode;
 }
 
 interface TransactionsContextData {
-  transactions: Transaction[];
+  transactions: ITransaction[];
   createTransaction: (transaction: TransactionInput) => Promise<void>;
 }
 
 export const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData);
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
-  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  const { transactionsTable } = useDatabase();
 
   useEffect(() => {
-    api.get('transactions')
-      .then(response => setTransactions(response.data.transactions))
-  }, [])
+    transactionsTable.toArray()
+      .then(response => setTransactions(response))
+  }, [transactionsTable])
 
   async function createTransaction(transactionInput: TransactionInput) {
-    const response = await api.post('/transactions', {
+    const teste = await transactionsTable.add({
       ...transactionInput,
       createdAt: new Date()
     });
-    const { transaction } = response.data;
 
-    setTransactions([...transactions, transaction])
+    const transaction = await transactionsTable.where({ id: teste }).toArray();
+
+    setTransactions([...transactions, ...transaction])
   }
 
   return (
@@ -52,7 +46,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   )
 }
 
-export function useTransactions () {
+export function useTransactions() {
   const context = useContext(TransactionsContext);
 
   return context;

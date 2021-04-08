@@ -66,8 +66,11 @@ export function NewTransactionModal({isOpen, onRequestClose}: NewTransactionModa
         <input 
           type="number" 
           placeholder='Valor'
+          min={0}
           value={amount}
-          onChange={event => setAmount(event.target.valueAsNumber)}
+          onChange={event => setAmount(
+            isNaN(event.target.valueAsNumber) ? 0 : event.target.valueAsNumber
+          )}
         />
 
         <TransactionTypeContainer>
