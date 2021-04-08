@@ -12,7 +12,7 @@ export const Container = styled.div<ContainerProps>`
     border-spacing: 0 0.5rem;
 
     th {
-      color: var(--text-body);
+      color: ${ctx => ctx.theme.colors.textBody};
       font-weight: 400;
       padding: 1rem 2rem;
       text-align: left;
@@ -22,20 +22,20 @@ export const Container = styled.div<ContainerProps>`
     td {
       padding: 1rem 2rem;
       border: 0;
-      background: var(--shape);
-      color: var(--text-body);
+      background: ${ctx => ctx.theme.colors.shape};
+      color: ${ctx => ctx.theme.colors.textBody};
       border-radius: 0.25rem;
 
       &:first-child {
-        color: var(--text-title);
+        color: ${ctx => ctx.theme.colors.textTitle};
       }
 
       &.deposit {
-        color: var(--green);
+        color: ${ctx => ctx.theme.colors.green};
       }
 
       &.withdraw {
-        color: var(--red);
+        color: ${ctx => ctx.theme.colors.red};
       }
 
     }
@@ -51,7 +51,7 @@ export const Container = styled.div<ContainerProps>`
           width: 100%;
           display: table-cell;
           
-          color: var(--text-title);
+          color: ${ctx => ctx.theme.colors.textTitle};
           font-size: 1.45rem;
 
           span {

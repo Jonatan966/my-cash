@@ -3,7 +3,7 @@ import { darken, transparentize } from 'polished'
 
 export const Container = styled.form`
   h2 {
-    color: var(--text-title);
+    color: ${ctx => ctx.theme.colors.textTitle};
     font-size: 1.5rem;
     margin-bottom: 2rem;
   }
@@ -15,15 +15,15 @@ export const Container = styled.form`
     padding: 0 1.5rem;
 
     border-radius: 0.25rem;
-    border: 1px solid #d7d7d7;
-
-    background: #e7e9ee;
+    border: 1px solid ${ctx => ctx.theme.colors.inputBorder};
+    background: ${ctx => ctx.theme.colors.inputBg};
+    color: ${ctx => ctx.theme.colors.text};
 
     font-weight: 400;
     font-size: 1rem;
 
     &::placeholder {
-      color: var(--text-body);
+      color: ${ctx => ctx.theme.colors.textBody};
     }
 
     & + input {
@@ -38,7 +38,7 @@ export const Container = styled.form`
     padding: 0 1.5rem;
     margin-top: 1.5rem;
 
-    background: var(--green);
+    background: ${ctx => ctx.theme.colors.green};
 
     color: #fff;
     font-size: 1rem;
@@ -100,7 +100,7 @@ export const RadioBox = styled.button<RadioBoxProps>`
     display: inline-block;
     margin-left: 1rem;
     font-size: 1rem;
-    color: var(--text-title);
+    color: ${ctx => ctx.theme.colors.textTitle};
   }
 
 `

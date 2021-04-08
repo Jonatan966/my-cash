@@ -6,7 +6,7 @@ export function TransactionsTable() {
   const { transactions } = useTransactions();
   
   return (
-    <Container itensCount={2}>
+    <Container itensCount={transactions.length}>
       <table>
         <thead>
           <tr>

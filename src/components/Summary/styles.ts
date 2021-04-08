@@ -7,10 +7,10 @@ export const Container = styled.div`
   margin-top: -10rem;
 
   div {
-    background: var(--shape);
+    background: ${ctx => ctx.theme.colors.shape};
     padding: 1.5rem 2rem;
     border-radius: 0.25rem;
-    color: var(--text-title);
+    color: ${ctx => ctx.theme.colors.textTitle};
 
     header {
       display: flex;
@@ -27,7 +27,7 @@ export const Container = styled.div`
     }
 
     &.highlight-background {
-      background: var(--green);
+      background: ${ctx => ctx.theme.colors.green};
       color: #fff;
     }
   }
