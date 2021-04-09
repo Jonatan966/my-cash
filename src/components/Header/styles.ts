@@ -21,6 +21,8 @@ export const Content = styled.div`
     padding: 0 2rem;
     border-radius: 0.25rem;
     height: 3rem;
+
+    grid-area: btnTransaction;
     
     transition: filter 0.2s;
 
@@ -29,9 +31,25 @@ export const Content = styled.div`
     }
   }
 
+  .switcher {
+    grid-area: btnSwitcher;
+  }
+
+  > img {
+    grid-area: logo;
+  }
+
   @media (max-width: 375px) {
     > img {
       zoom: 0.8;
     }
+  }
+
+  @media (max-width: 820px) {
+    display: grid;
+    grid-template-areas:
+        "logo btnSwitcher"
+        "btnTransaction btnTransaction";
+    gap: 1.5rem;
   }
 `

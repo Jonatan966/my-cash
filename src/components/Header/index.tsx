@@ -35,6 +35,7 @@ export function Header ({onOpenNewTransactionModal}: HeaderProps) {
           handleDiameter={30}
           height={20}
           onChange={toggleTheme}
+          className='switcher'
         />
 
         <button type='button' onClick={onOpenNewTransactionModal}>
