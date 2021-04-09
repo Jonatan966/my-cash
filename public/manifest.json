@@ -3,7 +3,7 @@
   "background_color": "#e76f51", 
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "https://the-dt-money.vercel.app/",
+  "start_url": ".",
  
   "icons": [
     {
