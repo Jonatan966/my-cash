@@ -5,10 +5,10 @@ export default {
   colors: {
     background: '#1F2223',
     red: '#e52e40',
-    primary: '#B03618',
+    primary: '#31263E',
     green: '#1D755D',
 
-    primaryLight: '#CD640E',
+    primaryLight: '#44355B',
 
     textTitle: '#A5B7CC',
     textBody: '#afa89d',
