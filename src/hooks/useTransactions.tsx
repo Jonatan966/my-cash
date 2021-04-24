@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { NewTransactionModal } from "../components/NewTransactionModal";
 import { ITransaction } from "../interfaces/Transactions";
 import { useDatabase } from "./useDatabase";
 
@@ -11,14 +12,19 @@ interface TransactionsProviderProps {
 
 interface TransactionsContextData {
   transactions: ITransaction[];
+  isNewTransactionModalOpen: boolean;
+
   createTransaction: (transaction: TransactionInput) => Promise<void>;
   removeTransaction: (transactionId: number) => Promise<void>;
+  handleOpenNewTransactionModal: () => void;
+  handleCloseNewTransactionModal: () => void;
 }
 
 export const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData);
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
   const { transactionsTable } = useDatabase();
 
   useEffect(() => {
@@ -37,6 +43,15 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions([...transactions, ...transaction])
   }
 
+  function handleOpenNewTransactionModal() {
+    setIsNewTransactionModalOpen(true);
+  }
+
+  function handleCloseNewTransactionModal() {
+    setIsNewTransactionModalOpen(false);
+  }
+
+
   async function removeTransaction(transactionId: number) {
     await transactionsTable.delete(transactionId)
 
@@ -49,9 +64,17 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     <TransactionsContext.Provider value={{
       transactions,
       createTransaction,
-      removeTransaction
+      removeTransaction,
+      isNewTransactionModalOpen,
+      handleOpenNewTransactionModal,
+      handleCloseNewTransactionModal
     }}>
       {children}
+      <NewTransactionModal
+        isOpen={isNewTransactionModalOpen}
+        onRequestClose={handleCloseNewTransactionModal}
+      />
+
     </TransactionsContext.Provider>
   )
 }

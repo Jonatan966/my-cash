@@ -8,13 +8,12 @@ import { Container, Content } from './styles'
 import { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { useThemeSwitcher } from '../../hooks/useThemeSwitcher'
+import { useTransactions } from '../../hooks/useTransactions'
 
-interface HeaderProps {
-  onOpenNewTransactionModal: () => void;
-}
 
-export function Header ({onOpenNewTransactionModal}: HeaderProps) {
+export function Header () {
   const { title } = useContext(ThemeContext);
+  const { handleOpenNewTransactionModal } = useTransactions();
   const {toggleTheme} = useThemeSwitcher();
 
   return (
@@ -38,7 +37,7 @@ export function Header ({onOpenNewTransactionModal}: HeaderProps) {
           className='switcher'
         />
 
-        <button type='button' onClick={onOpenNewTransactionModal}>
+        <button type='button' onClick={handleOpenNewTransactionModal}>
           Nova transação
         </button>
       </Content>
