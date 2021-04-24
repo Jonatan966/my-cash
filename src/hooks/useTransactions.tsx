@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { NewTransactionModal } from "../components/NewTransactionModal";
+import { RemoveTransactionModal } from "../components/RemoveTransactionModal";
 import { ITransaction } from "../interfaces/Transactions";
 import { useDatabase } from "./useDatabase";
 
@@ -13,11 +14,15 @@ interface TransactionsProviderProps {
 interface TransactionsContextData {
   transactions: ITransaction[];
   isNewTransactionModalOpen: boolean;
+  isRemoveModalOpen: boolean;
+  selectedTransaction: number;
 
   createTransaction: (transaction: TransactionInput) => Promise<void>;
-  removeTransaction: (transactionId: number) => Promise<void>;
+  removeTransaction: () => Promise<void>;
   handleOpenNewTransactionModal: () => void;
   handleCloseNewTransactionModal: () => void;
+  handleOpenRemoveTransactionModal: (transactionId: number) => void;
+  handleCloseRemoveTransactionModal: () => void;
 }
 
 export const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData);
@@ -25,6 +30,9 @@ export const TransactionsContext = createContext<TransactionsContextData>({} as 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(-1);
+
   const { transactionsTable } = useDatabase();
 
   useEffect(() => {
@@ -51,12 +59,21 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setIsNewTransactionModalOpen(false);
   }
 
+  function handleOpenRemoveTransactionModal(transactionId: number) {
+    setSelectedTransaction(transactionId)
+    setIsRemoveModalOpen(true)
+  }
 
-  async function removeTransaction(transactionId: number) {
-    await transactionsTable.delete(transactionId)
+  function handleCloseRemoveTransactionModal() {
+    setIsRemoveModalOpen(false)
+  }
+
+
+  async function removeTransaction() {
+    await transactionsTable.delete(selectedTransaction)
 
     setTransactions(oldValue => 
-      oldValue.filter(transaction => transaction.id !== transactionId)
+      oldValue.filter(transaction => transaction.id !== selectedTransaction)
     )
   }
 
@@ -65,16 +82,20 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       transactions,
       createTransaction,
       removeTransaction,
+      selectedTransaction,
       isNewTransactionModalOpen,
+      isRemoveModalOpen,
       handleOpenNewTransactionModal,
-      handleCloseNewTransactionModal
+      handleCloseNewTransactionModal,
+      handleOpenRemoveTransactionModal,
+      handleCloseRemoveTransactionModal
     }}>
       {children}
       <NewTransactionModal
         isOpen={isNewTransactionModalOpen}
         onRequestClose={handleCloseNewTransactionModal}
       />
-
+      <RemoveTransactionModal/>
     </TransactionsContext.Provider>
   )
 }
