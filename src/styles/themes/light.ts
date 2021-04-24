@@ -17,6 +17,9 @@ export default {
     shape: '#ffffff',
     
     inputBorder: '#d7d7d7',
-    inputBg: '#e7e9ee'
+    inputBg: '#e7e9ee',
+
+    trashIcon: 'invert(29%) sepia(63%) saturate(4241%) hue-rotate(338deg) brightness(92%) contrast(95%)',
+    trashBg: '#f39fa8'
   }
 } as DefaultTheme
