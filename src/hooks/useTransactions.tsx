@@ -4,6 +4,7 @@ import { NewTransactionModal } from "../components/NewTransactionModal";
 import { RemoveTransactionModal } from "../components/RemoveTransactionModal";
 import { ITransaction } from "../interfaces/Transactions";
 import { useDatabase } from "./useDatabase";
+import { useThemeSwitcher } from "./useThemeSwitcher";
 
 type TransactionInput = Omit<ITransaction, 'id' | 'createdAt'>;
 
@@ -28,6 +29,8 @@ interface TransactionsContextData {
 export const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData);
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
+  const { setScrollbarVisibility } = useThemeSwitcher()
+
   const [transactions, setTransactions] = useState<ITransaction[]>([]);
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
@@ -52,19 +55,23 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   }
 
   function handleOpenNewTransactionModal() {
+    setScrollbarVisibility(false);
     setIsNewTransactionModalOpen(true);
   }
 
   function handleCloseNewTransactionModal() {
+    setScrollbarVisibility(true);
     setIsNewTransactionModalOpen(false);
   }
 
   function handleOpenRemoveTransactionModal(transactionId: number) {
+    setScrollbarVisibility(false);
     setSelectedTransaction(transactionId)
     setIsRemoveModalOpen(true)
   }
 
   function handleCloseRemoveTransactionModal() {
+    setScrollbarVisibility(true);
     setIsRemoveModalOpen(false)
   }
 

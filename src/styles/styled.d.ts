@@ -24,5 +24,7 @@ declare module 'styled-components' {
       trashBg: string;
       trashIcon: string;
     }
+
+    isScrollbarVisible: boolean;
   }
 }

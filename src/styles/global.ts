@@ -40,6 +40,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background: ${ctx => ctx.theme.colors.background};
     --webkit-font-smoothing: antialiased;
+    overflow-y: ${ctx => ctx.theme.isScrollbarVisible ? 'auto' : 'hidden'};
   }
 
   button {
