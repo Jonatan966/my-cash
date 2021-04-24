@@ -40,6 +40,31 @@ export const Container = styled.div<ContainerProps>`
 
     }
 
+    .trash {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        filter: ${ctx => ctx.theme.colors.trashIcon};
+      }
+
+      button {
+        font-size: 0;
+        zoom: 1.5;
+        background: ${ctx => ctx.theme.colors.trashBg};
+        border: none;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+
+        transition: filter 0.2s;
+
+        :hover {
+          filter: brightness(0.9);
+        }
+      }
+    }
+
     @media (max-width: 820px) {
 
       th {
@@ -82,7 +107,8 @@ export const Container = styled.div<ContainerProps>`
         grid-template-areas: 
           'title title'
           'amount amount'
-          'category createdAt';
+          'category createdAt'
+          'actions actions';
 
         & + tr {
           margin: 1rem 0;
@@ -105,7 +131,17 @@ export const Container = styled.div<ContainerProps>`
             grid-area: createdAt;
             text-align: end;
           }
-         
+          &:nth-child(5) {
+            grid-area: actions;
+          }
+        }
+      }
+
+      .trash {
+        gap: 0.5rem;
+
+        button {
+          flex: 1;
         }
       }
     }

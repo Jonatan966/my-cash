@@ -1,9 +1,10 @@
 import { useTransactions } from '../../hooks/useTransactions';
 import { Container } from './styles';
 
+import trashImg from '../../assets/trash.svg'
 
 export function TransactionsTable() {
-  const { transactions } = useTransactions();
+  const { transactions, handleOpenRemoveTransactionModal } = useTransactions();
   
   return (
     <Container itensCount={transactions.length}>
@@ -14,6 +15,7 @@ export function TransactionsTable() {
             <th>Valor</th>
             <th>Categoria</th>
             <th><span>Data</span></th>
+            <th>Ações</th>
           </tr>
         </thead>
 
@@ -30,6 +32,14 @@ export function TransactionsTable() {
               <td>{transaction.category}</td>
               <td>
                 {new Intl.DateTimeFormat('pt-BR').format(new Date(transaction.createdAt))}
+              </td>
+              <td className='trash'>
+                <button 
+                  title='Remover' 
+                  onClick={() => handleOpenRemoveTransactionModal(transaction.id ?? 0)}
+                >
+                  <img src={trashImg} alt="Remover"/>
+                </button>
               </td>
             </tr>
           ))}

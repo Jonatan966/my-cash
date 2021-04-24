@@ -20,6 +20,11 @@ declare module 'styled-components' {
       
       inputBorder: string;
       inputBg: string;
+
+      trashBg: string;
+      trashIcon: string;
     }
+
+    isScrollbarVisible: boolean;
   }
 }
