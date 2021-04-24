@@ -12,6 +12,7 @@ interface TransactionsProviderProps {
 interface TransactionsContextData {
   transactions: ITransaction[];
   createTransaction: (transaction: TransactionInput) => Promise<void>;
+  removeTransaction: (transactionId: number) => Promise<void>;
 }
 
 export const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData);
@@ -36,10 +37,19 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions([...transactions, ...transaction])
   }
 
+  async function removeTransaction(transactionId: number) {
+    await transactionsTable.delete(transactionId)
+
+    setTransactions(oldValue => 
+      oldValue.filter(transaction => transaction.id !== transactionId)
+    )
+  }
+
   return (
     <TransactionsContext.Provider value={{
       transactions,
-      createTransaction
+      createTransaction,
+      removeTransaction
     }}>
       {children}
     </TransactionsContext.Provider>
