@@ -44,12 +44,12 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   }, [transactionsTable])
 
   async function createTransaction(transactionInput: TransactionInput) {
-    const teste = await transactionsTable.add({
+    const newTransactionId = await transactionsTable.add({
       ...transactionInput,
       createdAt: new Date()
     });
 
-    const transaction = await transactionsTable.where({ id: teste }).toArray();
+    const transaction = await transactionsTable.where({ id: newTransactionId }).toArray();
 
     setTransactions([...transactions, ...transaction])
   }
