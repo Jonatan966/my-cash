@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { lighten } from 'polished'
 
 interface ContainerProps {
   itensCount?: number;
