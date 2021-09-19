@@ -33,7 +33,9 @@ export const Container = styled.div`
   }
 
   @media (max-width: 820px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, 1fr);
+    overflow-x: hidden;
+    div {
+      min-width: 70vw;
+    }
   }
 `;
