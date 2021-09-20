@@ -4,7 +4,6 @@ import Switch from 'react-switch'
 import { lighten } from 'polished'
 
 import { useThemeSwitcher } from '../../hooks/useThemeSwitcher'
-import { useTransactions } from '../../hooks/useTransactions'
 
 import moonImg from '../../assets/moon.svg'
 import sunImg from '../../assets/sun.svg'
@@ -14,7 +13,6 @@ import { Container, Content } from './styles'
 
 export function Header() {
   const { title } = useContext(ThemeContext)
-  const { handleOpenNewTransactionModal } = useTransactions()
   const { toggleTheme } = useThemeSwitcher()
 
   return (
@@ -37,10 +35,6 @@ export function Header() {
           onChange={toggleTheme}
           className="switcher"
         />
-
-        <button type="button" onClick={handleOpenNewTransactionModal}>
-          Nova transação
-        </button>
       </Content>
     </Container>
   )
