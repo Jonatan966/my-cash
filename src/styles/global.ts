@@ -41,6 +41,8 @@ export const GlobalStyle = createGlobalStyle`
     background: ${ctx => ctx.theme.colors.background};
     --webkit-font-smoothing: antialiased;
     overflow-y: ${ctx => ctx.theme.isScrollbarVisible ? 'auto' : 'hidden'};
+
+    overflow-x: hidden;
   }
 
   button {

@@ -10,6 +10,7 @@ export const Container = styled.footer`
   padding: 0.5rem;
 
   background: ${ctx => ctx.theme.colors.shape};
+  border-top: 2px solid ${ctx => ctx.theme.colors.background};
 
   nav {
     display: grid;

@@ -6,6 +6,7 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   margin-top: 2.25rem;
+  padding-bottom: 2rem;
   
   table {
     width: 100%;
