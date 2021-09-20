@@ -34,6 +34,11 @@ export const Container = styled.div`
 
   @media (max-width: 820px) {
     overflow-x: hidden;
+    min-width: 100vw;
+    transform: translateX(-1rem);
+    padding: 0 1rem;
+
+
     div {
       min-width: 70vw;
     }

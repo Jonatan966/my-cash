@@ -37,16 +37,20 @@ export function Summary() {
     let isTouching = false
 
     function handleSwipeToCard() {
-      let gridGap = Number(
-        window
-          .getComputedStyle(summaryCardsContainer)
-          .getPropertyValue('gap')
-          .replace('px', '')
+      const summaryCardsContainerStyles = window.getComputedStyle(
+        summaryCardsContainer
+      )
+      const gridGap = Number(
+        summaryCardsContainerStyles.getPropertyValue('gap').replace('px', '')
       )
 
       const cardWidth = summaryCardsContainer.children[0].clientWidth
+      const summaryCardsContainerWidth =
+        summaryCardsContainer.clientWidth -
+        Number(summaryCardsContainerStyles.paddingLeft.replace('px', '')) -
+        Number(summaryCardsContainerStyles.paddingRight.replace('px', ''))
 
-      const borderWidth = (summaryCardsContainer.clientWidth - cardWidth) / 2
+      const borderWidth = (summaryCardsContainerWidth - cardWidth) / 2
 
       const lastSummaryScrollX = summaryCardsContainer.scrollLeft
 
