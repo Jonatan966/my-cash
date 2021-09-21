@@ -1,8 +1,6 @@
+import { ListingPage } from 'pages/ListingPage'
 import Modal from 'react-modal'
-
-import { Dashboard } from './components/Dashboard'
-import { Header } from './components/Header'
-import { NavigationBar } from './components/NavigationBar'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 import { ThemeSwitcherProvider } from './hooks/useThemeSwitcher'
 import { TransactionsProvider } from './hooks/useTransactions'
@@ -13,13 +11,13 @@ Modal.setAppElement('#root')
 
 export function App() {
   return (
-    <ThemeSwitcherProvider>
-      <TransactionsProvider>
-        <Header />
-        <Dashboard />
-        <NavigationBar />
-        <GlobalStyle />
-      </TransactionsProvider>
-    </ThemeSwitcherProvider>
+    <BrowserRouter>
+      <ThemeSwitcherProvider>
+        <TransactionsProvider>
+          <Route exact path="/" component={ListingPage} />
+          <GlobalStyle />
+        </TransactionsProvider>
+      </ThemeSwitcherProvider>
+    </BrowserRouter>
   )
 }
