@@ -1,16 +1,17 @@
 import { FormEvent } from 'react'
 import Modal from 'react-modal'
 
-import closeImg from '../../assets/close.svg'
-import { useTransactions } from '../../hooks/useTransactions'
+import { useTransactions } from 'hooks/useTransactions'
+
 import { Container } from './styles'
 
+import closeImg from 'assets/close.svg'
 
 export function RemoveTransactionModal() {
-  const { 
-    isRemoveModalOpen, 
-    handleCloseRemoveTransactionModal, 
-    removeTransaction 
+  const {
+    isRemoveModalOpen,
+    handleCloseRemoveTransactionModal,
+    removeTransaction,
   } = useTransactions()
 
   async function handleRemoveTransaction(event: FormEvent) {
@@ -23,16 +24,18 @@ export function RemoveTransactionModal() {
     <Modal
       isOpen={isRemoveModalOpen}
       onRequestClose={handleCloseRemoveTransactionModal}
-      overlayClassName='react-modal-overlay'
-      className={`react-modal-content ${!isRemoveModalOpen ? 'react-modal-closing' : 'react-modal-opening'}`}
+      overlayClassName="react-modal-overlay"
+      className={`react-modal-content ${
+        !isRemoveModalOpen ? 'react-modal-closing' : 'react-modal-opening'
+      }`}
       closeTimeoutMS={500}
     >
       <button
-        type='button'
+        type="button"
         onClick={handleCloseRemoveTransactionModal}
-        className='react-modal-close'
+        className="react-modal-close"
       >
-        <img src={closeImg} alt="Fechar modal"/>
+        <img src={closeImg} alt="Fechar modal" />
       </button>
 
       <Container onSubmit={handleRemoveTransaction}>
@@ -40,12 +43,10 @@ export function RemoveTransactionModal() {
         <p>Deseja mesmo remover essa transação?</p>
 
         <div className="actions">
-          <button type='button' onClick={handleCloseRemoveTransactionModal}>
+          <button type="button" onClick={handleCloseRemoveTransactionModal}>
             Cancelar
           </button>
-          <button type="submit">
-            Remover
-          </button>
+          <button type="submit">Remover</button>
         </div>
       </Container>
     </Modal>

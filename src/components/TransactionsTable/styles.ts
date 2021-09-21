@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 interface ContainerProps {
   itensCount?: number;
@@ -147,4 +147,4 @@ export const Container = styled.div<ContainerProps>`
       }
     }
   }
-`;
+`
