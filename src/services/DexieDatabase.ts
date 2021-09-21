@@ -1,5 +1,5 @@
-import Dexie from 'dexie';
-import { ITransaction } from '../interfaces/Transactions';
+import Dexie from 'dexie'
+import { ITransaction } from '../interfaces/Transactions'
 
 
 export class DtMoneyDatabase extends Dexie {

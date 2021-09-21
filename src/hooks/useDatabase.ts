@@ -1,6 +1,6 @@
-import { DtMoneyDatabase } from "../services/DexieDatabase";
+import { DtMoneyDatabase } from 'services/DexieDatabase'
 
-const database = new DtMoneyDatabase();
+const database = new DtMoneyDatabase()
 
 export function useDatabase() {
   return {

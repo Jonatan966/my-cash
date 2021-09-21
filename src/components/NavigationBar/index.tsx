@@ -1,9 +1,9 @@
-import { useTransactions } from '../../hooks/useTransactions'
+import { useTransactions } from 'hooks/useTransactions'
 
 import { Container } from './styles'
 
-import { ReactComponent as ListImg } from '../../assets/list.svg'
-import { ReactComponent as PieChartImg } from '../../assets/pie-chart.svg'
+import { ReactComponent as ListImg } from 'assets/list.svg'
+import { ReactComponent as PieChartImg } from 'assets/pie-chart.svg'
 
 export function NavigationBar() {
   const { handleOpenNewTransactionModal } = useTransactions()

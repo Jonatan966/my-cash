@@ -1,114 +1,127 @@
-import { useContext } from "react";
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { NewTransactionModal } from "../components/NewTransactionModal";
-import { RemoveTransactionModal } from "../components/RemoveTransactionModal";
-import { ITransaction } from "../interfaces/Transactions";
-import { useDatabase } from "./useDatabase";
-import { useThemeSwitcher } from "./useThemeSwitcher";
+import {
+  useContext,
+  createContext,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react'
 
-type TransactionInput = Omit<ITransaction, 'id' | 'createdAt'>;
+import { NewTransactionModal } from 'components/NewTransactionModal'
+import { RemoveTransactionModal } from 'components/RemoveTransactionModal'
+
+import { useDatabase } from './useDatabase'
+import { useThemeSwitcher } from './useThemeSwitcher'
+
+import { ITransaction } from 'interfaces/Transactions'
+
+type TransactionInput = Omit<ITransaction, 'id' | 'createdAt'>
 
 interface TransactionsProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 interface TransactionsContextData {
-  transactions: ITransaction[];
-  isNewTransactionModalOpen: boolean;
-  isRemoveModalOpen: boolean;
-  selectedTransaction: number;
+  transactions: ITransaction[]
+  isNewTransactionModalOpen: boolean
+  isRemoveModalOpen: boolean
+  selectedTransaction: number
 
-  createTransaction: (transaction: TransactionInput) => Promise<void>;
-  removeTransaction: () => Promise<void>;
-  handleOpenNewTransactionModal: () => void;
-  handleCloseNewTransactionModal: () => void;
-  handleOpenRemoveTransactionModal: (transactionId: number) => void;
-  handleCloseRemoveTransactionModal: () => void;
+  createTransaction: (transaction: TransactionInput) => Promise<void>
+  removeTransaction: () => Promise<void>
+  handleOpenNewTransactionModal: () => void
+  handleCloseNewTransactionModal: () => void
+  handleOpenRemoveTransactionModal: (transactionId: number) => void
+  handleCloseRemoveTransactionModal: () => void
 }
 
-export const TransactionsContext = createContext<TransactionsContextData>({} as TransactionsContextData);
+export const TransactionsContext = createContext<TransactionsContextData>(
+  {} as TransactionsContextData
+)
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const { setScrollbarVisibility } = useThemeSwitcher()
 
-  const [transactions, setTransactions] = useState<ITransaction[]>([]);
-  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
-  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
-  const [selectedTransaction, setSelectedTransaction] = useState(-1);
+  const [transactions, setTransactions] = useState<ITransaction[]>([])
+  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
+    useState(false)
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
+  const [selectedTransaction, setSelectedTransaction] = useState(-1)
 
-  const { transactionsTable } = useDatabase();
+  const { transactionsTable } = useDatabase()
 
   useEffect(() => {
-    transactionsTable.toArray()
-      .then(response => setTransactions(response))
+    transactionsTable.toArray().then((response) => setTransactions(response))
   }, [transactionsTable])
 
   async function createTransaction(transactionInput: TransactionInput) {
     const newTransactionId = await transactionsTable.add({
       ...transactionInput,
-      createdAt: new Date()
-    });
+      createdAt: new Date(),
+    })
 
-    const transaction = await transactionsTable.where({ id: newTransactionId }).toArray();
+    const transaction = await transactionsTable
+      .where({ id: newTransactionId })
+      .toArray()
 
     setTransactions([...transactions, ...transaction])
   }
 
   function handleOpenNewTransactionModal() {
-    setScrollbarVisibility(false);
-    setIsNewTransactionModalOpen(true);
+    setScrollbarVisibility(false)
+    setIsNewTransactionModalOpen(true)
   }
 
   function handleCloseNewTransactionModal() {
-    setScrollbarVisibility(true);
-    setIsNewTransactionModalOpen(false);
+    setScrollbarVisibility(true)
+    setIsNewTransactionModalOpen(false)
   }
 
   function handleOpenRemoveTransactionModal(transactionId: number) {
-    setScrollbarVisibility(false);
+    setScrollbarVisibility(false)
     setSelectedTransaction(transactionId)
     setIsRemoveModalOpen(true)
   }
 
   function handleCloseRemoveTransactionModal() {
-    setScrollbarVisibility(true);
+    setScrollbarVisibility(true)
     setIsRemoveModalOpen(false)
   }
-
 
   async function removeTransaction() {
     await transactionsTable.delete(selectedTransaction)
 
-    setTransactions(oldValue => 
-      oldValue.filter(transaction => transaction.id !== selectedTransaction)
+    setTransactions((oldValue) =>
+      oldValue.filter((transaction) => transaction.id !== selectedTransaction)
     )
   }
 
   return (
-    <TransactionsContext.Provider value={{
-      transactions,
-      createTransaction,
-      removeTransaction,
-      selectedTransaction,
-      isNewTransactionModalOpen,
-      isRemoveModalOpen,
-      handleOpenNewTransactionModal,
-      handleCloseNewTransactionModal,
-      handleOpenRemoveTransactionModal,
-      handleCloseRemoveTransactionModal
-    }}>
+    <TransactionsContext.Provider
+      value={{
+        transactions,
+        createTransaction,
+        removeTransaction,
+        selectedTransaction,
+        isNewTransactionModalOpen,
+        isRemoveModalOpen,
+        handleOpenNewTransactionModal,
+        handleCloseNewTransactionModal,
+        handleOpenRemoveTransactionModal,
+        handleCloseRemoveTransactionModal,
+      }}
+    >
       {children}
       <NewTransactionModal
         isOpen={isNewTransactionModalOpen}
         onRequestClose={handleCloseNewTransactionModal}
       />
-      <RemoveTransactionModal/>
+      <RemoveTransactionModal />
     </TransactionsContext.Provider>
   )
 }
 
 export function useTransactions() {
-  const context = useContext(TransactionsContext);
+  const context = useContext(TransactionsContext)
 
-  return context;
+  return context
 }

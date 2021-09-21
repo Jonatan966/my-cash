@@ -1,44 +1,53 @@
-import { useTransactions } from '../../hooks/useTransactions';
-import { Container } from './styles';
+import { useTransactions } from 'hooks/useTransactions'
 
-import trashImg from '../../assets/trash.svg'
+import trashImg from 'assets/trash.svg'
+
+import { Container } from './styles'
 
 export function TransactionsTable() {
-  const { transactions, handleOpenRemoveTransactionModal } = useTransactions();
-  
+  const { transactions, handleOpenRemoveTransactionModal } = useTransactions()
+
   return (
     <Container itensCount={transactions.length}>
       <table>
         <thead>
           <tr>
-            <th><span>Título</span></th>
+            <th>
+              <span>Título</span>
+            </th>
             <th>Valor</th>
             <th>Categoria</th>
-            <th><span>Data</span></th>
+            <th>
+              <span>Data</span>
+            </th>
             <th>Ações</th>
           </tr>
         </thead>
 
         <tbody>
-          {transactions.map(transaction => (
+          {transactions.map((transaction) => (
             <tr key={`transaction-${transaction.id}`}>
               <td>{transaction.title}</td>
               <td className={transaction.type}>
-                {new Intl.NumberFormat('pt-BR', { 
-                  style: 'currency', 
-                  currency: 'BRL' 
+                {new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
                 }).format(transaction.amount)}
               </td>
               <td>{transaction.category}</td>
               <td>
-                {new Intl.DateTimeFormat('pt-BR').format(new Date(transaction.createdAt))}
+                {new Intl.DateTimeFormat('pt-BR').format(
+                  new Date(transaction.createdAt)
+                )}
               </td>
-              <td className='trash'>
-                <button 
-                  title='Remover' 
-                  onClick={() => handleOpenRemoveTransactionModal(transaction.id ?? 0)}
+              <td className="trash">
+                <button
+                  title="Remover"
+                  onClick={() =>
+                    handleOpenRemoveTransactionModal(transaction.id ?? 0)
+                  }
                 >
-                  <img src={trashImg} alt="Remover"/>
+                  <img src={trashImg} alt="Remover" />
                 </button>
               </td>
             </tr>
@@ -46,5 +55,5 @@ export function TransactionsTable() {
         </tbody>
       </table>
     </Container>
-  );
-};
+  )
+}

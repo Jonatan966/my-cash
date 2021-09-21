@@ -1,4 +1,4 @@
-import { createGlobalStyle, keyframes } from "styled-components";
+import { createGlobalStyle, keyframes } from 'styled-components'
 
 const modalEnterAnimation = keyframes`
   from {
@@ -110,4 +110,4 @@ export const GlobalStyle = createGlobalStyle`
       filter: brightness(0.8)
     }
   }
-`;
+`
