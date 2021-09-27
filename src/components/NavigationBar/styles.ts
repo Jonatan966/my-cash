@@ -22,13 +22,14 @@ export const Container = styled.footer`
     max-width: 1120px;
   }
 
-  button {
+  a, button {
     padding: 0.25rem;
 
     background: none;
     border: none;
     border-radius: 0.25rem;
 
+    text-decoration: none;
     color: ${ctx => ctx.theme.colors.textTitle};
     font-weight: bold;
     font-size: 1.05rem;

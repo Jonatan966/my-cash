@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 import { useTransactions } from 'hooks/useTransactions'
 
 import { Container } from './styles'
@@ -5,16 +7,23 @@ import { Container } from './styles'
 import { ReactComponent as ListImg } from 'assets/list.svg'
 import { ReactComponent as PieChartImg } from 'assets/pie-chart.svg'
 
-export function NavigationBar() {
+interface NavigationBarProps {
+  selectedRoute: 'listing' | 'summary'
+}
+
+export function NavigationBar({ selectedRoute }: NavigationBarProps) {
   const { handleOpenNewTransactionModal } = useTransactions()
 
   return (
     <Container>
       <nav>
-        <button className="selected-btn">
+        <Link
+          to="/"
+          className={selectedRoute === 'listing' ? 'selected-btn' : ''}
+        >
           <ListImg />
           Listagem
-        </button>
+        </Link>
         <button
           title="Nova transação"
           className="new-btn"
@@ -22,10 +31,13 @@ export function NavigationBar() {
         >
           +
         </button>
-        <button>
+        <Link
+          to="/summary"
+          className={selectedRoute === 'summary' ? 'selected-btn' : ''}
+        >
           <PieChartImg />
           Resumo
-        </button>
+        </Link>
       </nav>
     </Container>
   )
