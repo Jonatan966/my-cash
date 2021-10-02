@@ -1,10 +1,16 @@
 import styled from 'styled-components'
 
-export const Container = styled.header`
+export const Container = styled.main`
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem;
+`
+
+export const HeaderContainer = styled.header`
   background: ${ctx => ctx.theme.colors.primary};
 `
 
-export const Content = styled.div`
+export const HeaderContent = styled.div`
   max-width: 1120px;
   margin: 0 auto;
 

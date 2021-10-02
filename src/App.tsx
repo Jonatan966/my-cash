@@ -1,8 +1,8 @@
 import Modal from 'react-modal'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
-import { Dashboard } from './components/Dashboard'
-import { Header } from './components/Header'
-import { NavigationBar } from './components/NavigationBar'
+import { ListingPage } from 'pages/ListingPage'
+import { SummaryPage } from 'pages/SummaryPage'
 
 import { ThemeSwitcherProvider } from './hooks/useThemeSwitcher'
 import { TransactionsProvider } from './hooks/useTransactions'
@@ -13,13 +13,16 @@ Modal.setAppElement('#root')
 
 export function App() {
   return (
-    <ThemeSwitcherProvider>
-      <TransactionsProvider>
-        <Header />
-        <Dashboard />
-        <NavigationBar />
-        <GlobalStyle />
-      </TransactionsProvider>
-    </ThemeSwitcherProvider>
+    <BrowserRouter>
+      <ThemeSwitcherProvider>
+        <TransactionsProvider>
+          <Switch>
+            <Route exact path="/" component={ListingPage} />
+            <Route path="/summary" component={SummaryPage} />
+          </Switch>
+          <GlobalStyle />
+        </TransactionsProvider>
+      </ThemeSwitcherProvider>
+    </BrowserRouter>
   )
 }
