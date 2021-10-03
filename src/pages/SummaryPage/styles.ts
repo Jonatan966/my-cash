@@ -7,6 +7,10 @@ export const Header = styled.header`
   text-align: center;
 
   color: #fff;
+
+  z-index: 1;
+  position: sticky;
+  top: 0;
 `
 
 export const MainContainer = styled.main`
@@ -41,6 +45,7 @@ export const MainContainer = styled.main`
     gap: 0.75rem;
 
     margin-top: 1rem;
+    padding-bottom: 5rem;
   }
 
   @media (max-width: 768px) {
