@@ -8,6 +8,7 @@ import outcomeImg from 'assets/outcome.svg'
 import { useTransactions } from 'hooks/useTransactions'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
+import { GenericInput } from 'components/GenericInput'
 
 interface NewTransactionModalProps {
   isOpen: boolean
@@ -31,7 +32,7 @@ export function NewTransactionModal({
 
     await createTransaction({
       title,
-      amount,
+      amount: isNaN(amount) ? 0 : amount,
       category,
       type,
     })
@@ -63,20 +64,19 @@ export function NewTransactionModal({
       <Container onSubmit={handleCreateNewTransaction}>
         <h2>Cadastrar transação</h2>
 
-        <input
-          placeholder="Título"
+        <GenericInput
+          title='Título'
+          placeholder="Ex: Video game"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <input
+        <GenericInput
           type="number"
-          placeholder="Valor"
+          title="Valor"
           min={0}
           value={amount}
           onChange={(event) =>
-            setAmount(
-              isNaN(event.target.valueAsNumber) ? 0 : event.target.valueAsNumber
-            )
+            setAmount(event.target.valueAsNumber)
           }
         />
 
@@ -102,8 +102,9 @@ export function NewTransactionModal({
           </RadioBox>
         </TransactionTypeContainer>
 
-        <input
-          placeholder="Categoria"
+        <GenericInput
+          title="Categoria"
+          placeholder="Ex: Lazer"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
         />
