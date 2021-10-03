@@ -2,33 +2,14 @@ import styled from 'styled-components'
 import { darken, transparentize } from 'polished'
 
 export const Container = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
   h2 {
     color: ${ctx => ctx.theme.colors.textTitle};
     font-size: 1.5rem;
-    margin-bottom: 2rem;
-  }
-
-  input {
-    width: 100%;
-    height: 4rem;
-
-    padding: 0 1.5rem;
-
-    border-radius: 0.25rem;
-    border: 1px solid ${ctx => ctx.theme.colors.inputBorder};
-    background: ${ctx => ctx.theme.colors.inputBg};
-    color: ${ctx => ctx.theme.colors.text};
-
-    font-weight: 400;
-    font-size: 1rem;
-
-    &::placeholder {
-      color: ${ctx => ctx.theme.colors.textBody};
-    }
-
-    & + input {
-      margin-top: 1rem;
-    }
+    margin-bottom: 1rem;
   }
 
   button[type=submit] {
@@ -55,7 +36,6 @@ export const Container = styled.form`
 `
 
 export const TransactionTypeContainer = styled.div`
-  margin: 1rem 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
@@ -72,7 +52,7 @@ const colors = {
 }
 
 export const RadioBox = styled.button<RadioBoxProps>`
-  height: 4rem;
+  height: 3rem;
   border: 1.5px solid #d7d7d7;
   border-radius: 0.25rem;
 
