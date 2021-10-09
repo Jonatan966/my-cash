@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import { ListingPage } from 'pages/ListingPage'
 import { SummaryPage } from 'pages/SummaryPage'
+import { LoginPage } from 'pages/LoginPage'
 
 import { ThemeSwitcherProvider } from './hooks/useThemeSwitcher'
 import { TransactionsProvider } from './hooks/useTransactions'
@@ -19,6 +20,7 @@ export function App() {
           <Switch>
             <Route exact path="/" component={ListingPage} />
             <Route path="/summary" component={SummaryPage} />
+            <Route path="/auth" component={LoginPage} />
           </Switch>
           <GlobalStyle />
         </TransactionsProvider>
