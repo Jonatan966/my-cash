@@ -9,22 +9,25 @@ import { ThemeSwitcherProvider } from './hooks/useThemeSwitcher'
 import { TransactionsProvider } from './hooks/useTransactions'
 
 import { GlobalStyle } from './styles/global'
+import { AuthProvider } from 'contexts/authContext'
 
 Modal.setAppElement('#root')
 
 export function App() {
   return (
     <BrowserRouter>
-      <ThemeSwitcherProvider>
-        <TransactionsProvider>
-          <Switch>
-            <Route exact path="/" component={ListingPage} />
-            <Route path="/summary" component={SummaryPage} />
-            <Route path="/auth" component={LoginPage} />
-          </Switch>
-          <GlobalStyle />
-        </TransactionsProvider>
-      </ThemeSwitcherProvider>
+      <AuthProvider>
+          <ThemeSwitcherProvider>
+            <TransactionsProvider>
+              <Switch>
+                <Route exact path="/" component={ListingPage} />
+                <Route path="/summary" component={SummaryPage} />
+                <Route path="/auth" component={LoginPage} />
+              </Switch>
+              <GlobalStyle />
+            </TransactionsProvider>
+          </ThemeSwitcherProvider>
+      </AuthProvider>
     </BrowserRouter>
   )
 }
