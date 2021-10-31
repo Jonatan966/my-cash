@@ -30,12 +30,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const unsubscribe = authApp.onAuthStateChanged(authConfig, user => {
       if (user) {
         saveUserInformation(user)
+        setIsLoadingUserInformation(false)
+        return
       }
-      setIsLoadingUserInformation(false)
+
+      router.replace('/auth')
     })
 
     return () => unsubscribe()
-  }, [])
+  }, [router])
 
   async function signIn(targetProvider: TargetProviders) {
     const providers = {
