@@ -2,9 +2,13 @@ import { ReactComponent as LogoImg } from 'assets/logo.svg'
 import { ReactComponent as GoogleImg } from 'assets/google-logo.svg'
 import { ReactComponent as FacebookImg } from 'assets/facebook-logo.svg'
 
+import { useAuth } from 'contexts/authContext'
+
 import { ActionsContainer, Header } from './styles'
 
 export function LoginPage() {
+  const { signIn } = useAuth()
+
   return (
     <>
       <Header>
@@ -17,13 +21,13 @@ export function LoginPage() {
 
       <ActionsContainer>
         <div>
-          <button>
+          <button onClick={() => signIn('google')}>
             <GoogleImg />
             <hr />
             <span>Entrar com Google</span>
           </button>
 
-          <button>
+          <button onClick={() => signIn('facebook')}>
             <FacebookImg />
             <hr />
             <span>Entrar com Facebook</span>
@@ -31,7 +35,7 @@ export function LoginPage() {
 
           <span className='separator' data-content='Ou' />
           
-          <button className='without-login-btn'>
+          <button onClick={() => signIn('anonymous')} className='without-login-btn'>
             <span>Entrar sem fazer login</span>
           </button>
         </div>
