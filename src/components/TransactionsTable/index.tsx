@@ -1,4 +1,5 @@
 import { useTransactions } from 'hooks/useTransactions'
+import { Button } from 'components/Button'
 
 import trashImg from 'assets/trash.svg'
 
@@ -41,14 +42,16 @@ export function TransactionsTable() {
                 )}
               </td>
               <td className="trash">
-                <button
+                <Button
                   title="Remover"
                   onClick={() =>
                     handleOpenRemoveTransactionModal(transaction.id || '')
                   }
+                  fontSize='0'
+                  backgroundColor='trashBg'
                 >
                   <img src={trashImg} alt="Remover" />
-                </button>
+                </Button>
               </td>
             </tr>
           ))}

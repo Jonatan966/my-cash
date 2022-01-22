@@ -51,18 +51,7 @@ export const Container = styled.div<ContainerProps>`
       }
 
       button {
-        font-size: 0;
         zoom: 1.5;
-        background: ${ctx => ctx.theme.colors.trashBg};
-        border: none;
-        padding: 0.25rem;
-        border-radius: 0.25rem;
-
-        transition: filter 0.2s;
-
-        :hover {
-          filter: brightness(0.9);
-        }
       }
     }
 

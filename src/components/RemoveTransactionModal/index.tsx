@@ -2,6 +2,7 @@ import { FormEvent } from 'react'
 import Modal from 'react-modal'
 
 import { useTransactions } from 'hooks/useTransactions'
+import { Button } from 'components/Button'
 
 import { Container } from './styles'
 
@@ -43,10 +44,23 @@ export function RemoveTransactionModal() {
         <p>Deseja mesmo remover essa transação?</p>
 
         <div className="actions">
-          <button type="button" onClick={handleCloseRemoveTransactionModal}>
+          <Button
+            type="button" 
+            onClick={handleCloseRemoveTransactionModal}
+            backgroundColor='green'
+            height='4rem'
+            textColor='#fff'
+          >
             Cancelar
-          </button>
-          <button type="submit">Remover</button>
+          </Button>
+          <Button
+            type="submit" 
+            backgroundColor='trashBg'
+            height='4rem'
+            textColor='#fff'
+          >
+            Remover
+          </Button>
         </div>
       </Container>
     </Modal>

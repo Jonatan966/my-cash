@@ -22,41 +22,6 @@ export const Container = styled.footer`
     max-width: 1120px;
   }
 
-  a, button {
-    padding: 0.25rem;
-
-    background: none;
-    border: none;
-    border-radius: 0.25rem;
-
-    text-decoration: none;
-    color: ${ctx => ctx.theme.colors.textTitle};
-    font-weight: bold;
-    font-size: 1.05rem;
-
-    transition: filter 0.2s;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      color: ${ctx => ctx.theme.colors.textTitle};
-    }
-
-    &:hover {
-      filter: brightness(0.8);
-    }
-  }
-
-  .new-btn {
-    background: ${ctx => ctx.theme.colors.green};
-
-    color: #fff;
-    font-size: 1.75rem;
-  }
-
   .selected-btn {
     ${ctx => ctx.theme.title === 'light' && css`
       color: ${ctx => ctx.theme.colors.primary};  

@@ -6,9 +6,10 @@ import incomeImg from 'assets/income.svg'
 import outcomeImg from 'assets/outcome.svg'
 
 import { useTransactions } from 'hooks/useTransactions'
+import { GenericInput } from 'components/GenericInput'
+import { Button } from 'components/Button'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
-import { GenericInput } from 'components/GenericInput'
 
 interface NewTransactionModalProps {
   isOpen: boolean
@@ -109,7 +110,14 @@ export function NewTransactionModal({
           onChange={(event) => setCategory(event.target.value)}
         />
 
-        <button type="submit">Cadastrar</button>
+        <Button 
+          type='submit'
+          height='4rem'
+          backgroundColor='green'
+          textColor='#fff'
+        >
+          Cadastrar
+        </Button>
       </Container>
     </Modal>
   )
