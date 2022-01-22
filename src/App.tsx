@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { ListingPage } from 'pages/ListingPage'
 import { SummaryPage } from 'pages/SummaryPage'
 import { LoginPage } from 'pages/LoginPage'
+import { Toast } from 'components/Toast'
 
 import { ThemeSwitcherProvider } from './hooks/useThemeSwitcher'
 import { TransactionsProvider } from './hooks/useTransactions'
@@ -18,6 +19,7 @@ export function App() {
     <BrowserRouter>
       <AuthProvider>
           <ThemeSwitcherProvider>
+            <Toast />
             <TransactionsProvider>
               <Switch>
                 <Route exact path="/" component={ListingPage} />
