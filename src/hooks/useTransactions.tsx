@@ -5,14 +5,16 @@ import {
   useEffect,
   useState,
 } from 'react'
+import { addDoc, collection, deleteDoc, doc, getDocs } from '@firebase/firestore'
 
 import { NewTransactionModal } from 'components/NewTransactionModal'
 import { RemoveTransactionModal } from 'components/RemoveTransactionModal'
 
-import { useDatabase } from './useDatabase'
 import { useThemeSwitcher } from './useThemeSwitcher'
 
 import { ITransaction } from 'interfaces/Transactions'
+import { firestoreConfig } from 'services/firebase'
+import { useAuth } from 'contexts/authContext'
 
 type TransactionInput = Omit<ITransaction, 'id' | 'createdAt'>
 
@@ -24,13 +26,13 @@ interface TransactionsContextData {
   transactions: ITransaction[]
   isNewTransactionModalOpen: boolean
   isRemoveModalOpen: boolean
-  selectedTransaction: number
+  selectedTransaction?: string
 
   createTransaction: (transaction: TransactionInput) => Promise<void>
   removeTransaction: () => Promise<void>
   handleOpenNewTransactionModal: () => void
   handleCloseNewTransactionModal: () => void
-  handleOpenRemoveTransactionModal: (transactionId: number) => void
+  handleOpenRemoveTransactionModal: (transactionId: string) => void
   handleCloseRemoveTransactionModal: () => void
 }
 
@@ -40,30 +42,49 @@ export const TransactionsContext = createContext<TransactionsContextData>(
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const { setScrollbarVisibility } = useThemeSwitcher()
+  const { user } = useAuth()
 
   const [transactions, setTransactions] = useState<ITransaction[]>([])
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
     useState(false)
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
-  const [selectedTransaction, setSelectedTransaction] = useState(-1)
-
-  const { transactionsTable } = useDatabase()
+  const [selectedTransaction, setSelectedTransaction] = useState<string | undefined>()
 
   useEffect(() => {
-    transactionsTable.toArray().then((response) => setTransactions(response))
-  }, [transactionsTable])
+    if (user) {
+      const transactionsCollRef = collection(
+        firestoreConfig, 
+        `/users/${user?.id}/transactions`
+      )
+
+      getDocs(transactionsCollRef).then(docs => {
+        const mappedDocs: ITransaction[] = []
+
+        docs.forEach(doc => 
+          mappedDocs.push({
+            ...doc.data() as ITransaction,
+            id: doc.id
+          })
+        )
+
+        setTransactions(mappedDocs)
+      })
+    }
+  }, [user])
 
   async function createTransaction(transactionInput: TransactionInput) {
-    const newTransactionId = await transactionsTable.add({
+    const transactionsCollRef = collection(firestoreConfig, `/users/${user?.id}/transactions`)
+
+    let newTransaction: ITransaction = {
       ...transactionInput,
-      createdAt: new Date(),
-    })
+      createdAt: (new Date()).getTime(),
+    }
 
-    const transaction = await transactionsTable
-      .where({ id: newTransactionId })
-      .toArray()
+    const insertResultRef = await addDoc(transactionsCollRef, newTransaction)
 
-    setTransactions([...transactions, ...transaction])
+    newTransaction.id = insertResultRef.id
+
+    setTransactions([...transactions, newTransaction])
   }
 
   function handleOpenNewTransactionModal() {
@@ -76,7 +97,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setIsNewTransactionModalOpen(false)
   }
 
-  function handleOpenRemoveTransactionModal(transactionId: number) {
+  function handleOpenRemoveTransactionModal(transactionId: string) {
     setScrollbarVisibility(false)
     setSelectedTransaction(transactionId)
     setIsRemoveModalOpen(true)
@@ -88,7 +109,12 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   }
 
   async function removeTransaction() {
-    await transactionsTable.delete(selectedTransaction)
+    const transactionsCollRef = doc(
+      firestoreConfig, 
+      `/users/${user?.id}/transactions/${selectedTransaction}`
+    )
+
+    await deleteDoc(transactionsCollRef)
 
     setTransactions((oldValue) =>
       oldValue.filter((transaction) => transaction.id !== selectedTransaction)

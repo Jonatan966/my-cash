@@ -44,7 +44,7 @@ export function TransactionsTable() {
                 <button
                   title="Remover"
                   onClick={() =>
-                    handleOpenRemoveTransactionModal(transaction.id ?? 0)
+                    handleOpenRemoveTransactionModal(transaction.id || '')
                   }
                 >
                   <img src={trashImg} alt="Remover" />

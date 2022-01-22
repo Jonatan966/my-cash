@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState, createContext, ReactNode } from 'react'
 import { useHistory } from 'react-router'
+import { toast } from 'react-toastify'
 
 import { User } from 'interfaces/User'
 import { authApp, authConfig } from 'services/firebase'
@@ -48,17 +49,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     let signInResult = null
 
-    if (targetProvider === 'anonymous') {
-      signInResult = await authApp.signInAnonymously(authConfig)
-    } else {
-      signInResult = await authApp.signInWithPopup(authConfig, providers[targetProvider])
+    try {
+      if (targetProvider === 'anonymous') {
+        signInResult = await authApp.signInAnonymously(authConfig)
+      } else {
+        signInResult = await authApp.signInWithPopup(authConfig, providers[targetProvider])
+      }
+
+      if (signInResult.user) {
+        saveUserInformation(signInResult.user)
+
+        router.replace('/')
+      }
+    } catch {
+      toast.error("Ocorreu um erro ao tentar fazer login. Verifique sua conexão e tente novamente")
     }
 
-    if (signInResult.user) {
-      saveUserInformation(signInResult.user)
-
-      router.replace('/')
-    }
   }
 
   async function signOut() {
