@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react'
+import { SwiperSlide } from 'swiper/react'
+import 'swiper/swiper.min.css'
 
 import { useTransactions } from 'hooks/useTransactions'
 
@@ -10,7 +11,6 @@ import { Container } from './styles'
 
 export function Summary() {
   const { transactions } = useTransactions()
-  const summaryCardsContainerRef = useRef<HTMLDivElement>(null)
 
   const summary = transactions.reduce(
     (acc, transaction) => {
@@ -31,71 +31,19 @@ export function Summary() {
     }
   )
 
-  useEffect(() => {
-    const summaryCardsContainer =
-      summaryCardsContainerRef.current as HTMLDivElement
-    let touchDirection = 0
-    let lastTouchX = 0
-    let isTouching = false
-
-    function handleSwipeToCard() {
-      const summaryCardsContainerStyles = window.getComputedStyle(
-        summaryCardsContainer
-      )
-      const gridGap = Number(
-        summaryCardsContainerStyles.getPropertyValue('gap').replace('px', '')
-      )
-
-      const cardWidth = summaryCardsContainer.children[0].clientWidth
-      const summaryCardsContainerWidth =
-        summaryCardsContainer.clientWidth -
-        Number(summaryCardsContainerStyles.paddingLeft.replace('px', '')) -
-        Number(summaryCardsContainerStyles.paddingRight.replace('px', ''))
-
-      const borderWidth = (summaryCardsContainerWidth - cardWidth) / 2
-
-      const lastSummaryScrollX = summaryCardsContainer.scrollLeft
-
-      summaryCardsContainer.scrollTo({
-        left:
-          lastSummaryScrollX +
-          (cardWidth - borderWidth + gridGap) * touchDirection,
-        behavior: 'smooth',
-      })
-    }
-
-    function handleTouchStart(event: TouchEvent) {
-      lastTouchX = event.touches[0].clientX
-    }
-
-    function handleTouchMove(event: TouchEvent) {
-      if (isTouching) return
-
-      isTouching = true
-
-      touchDirection = event.touches[0].clientX < lastTouchX ? 1 : -1
-
-      handleSwipeToCard()
-    }
-
-    function handleTouchEnd() {
-      isTouching = false
-    }
-
-    summaryCardsContainer.addEventListener('touchstart', handleTouchStart)
-    summaryCardsContainer.addEventListener('touchmove', handleTouchMove)
-    summaryCardsContainer.addEventListener('touchend', handleTouchEnd)
-
-    return () => {
-      summaryCardsContainer.removeEventListener('touchstart', handleTouchStart)
-      summaryCardsContainer.removeEventListener('touchmove', handleTouchMove)
-      summaryCardsContainer.removeEventListener('touchend', handleTouchEnd)
-    }
-  }, [])
-
   return (
-    <Container ref={summaryCardsContainerRef}>
-      <div>
+    <Container
+      slidesPerView={1.25}
+      spaceBetween={16}
+      centeredSlides
+      breakpoints={{
+        820: {
+          slidesPerView: 3,
+          centeredSlides: false,
+        }
+      }}
+    >
+      <SwiperSlide>
         <header>
           <p>Entradas</p>
           <img src={incomeImg} alt="Entradas" />
@@ -106,9 +54,9 @@ export function Summary() {
             currency: 'BRL',
           }).format(summary.depoists)}
         </strong>
-      </div>
+      </SwiperSlide>
 
-      <div>
+      <SwiperSlide>
         <header>
           <p>Saídas</p>
           <img src={outcomeImg} alt="Saídas" />
@@ -120,9 +68,9 @@ export function Summary() {
             currency: 'BRL',
           }).format(summary.withdraws)}
         </strong>
-      </div>
+      </SwiperSlide>
 
-      <div className="highlight-background">
+      <SwiperSlide className="highlight-background">
         <header>
           <p>Total</p>
           <img src={totalImg} alt="Total" />
@@ -133,7 +81,7 @@ export function Summary() {
             currency: 'BRL',
           }).format(summary.total)}
         </strong>
-      </div>
+      </SwiperSlide>
     </Container>
   )
 }
