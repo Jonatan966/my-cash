@@ -111,7 +111,7 @@ export const ActionsContainer = styled.main`
 
       display: inline-block;
       position: relative;
-      top: -1.15rem;
+      transform: translateY(-50%);
       padding: 0 0.3em;
       
       background: ${props => props.theme.colors.green};
