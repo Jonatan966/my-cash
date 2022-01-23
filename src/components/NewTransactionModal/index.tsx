@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 
 import closeImg from 'assets/close.svg'
@@ -10,6 +10,7 @@ import { GenericInput } from 'components/GenericInput'
 import { Button } from 'components/Button'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
+import { toast } from 'react-toastify'
 
 interface NewTransactionModalProps {
   isOpen: boolean
@@ -25,24 +26,42 @@ export function NewTransactionModal({
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
 
   const [type, setType] = useState<'deposit' | 'withdraw'>('deposit')
 
+  useEffect(() => {
+    if (isOpen) {
+      setIsSaving(false)
+    }
+  }, [isOpen])
+
   async function handleCreateNewTransaction(event: FormEvent) {
     event.preventDefault()
+    setIsSaving(true)
 
-    await createTransaction({
+    const creationPromise = createTransaction({
       title,
       amount: isNaN(amount) ? 0 : amount,
       category,
       type,
     })
 
-    setTitle('')
-    setAmount(0)
-    setCategory('')
-    setType('deposit')
-    onRequestClose()
+    try {
+      await toast.promise(creationPromise, {
+        pending: 'Adicionando transação. . .',
+        error: 'Não foi possível adicionar essa transação',
+        success: 'Transação adicionada com sucesso!'
+      })
+  
+      setTitle('')
+      setAmount(0)
+      setCategory('')
+      setType('deposit')
+      onRequestClose()  
+    } catch {
+      setIsSaving(false)
+    }
   }
 
   return (
@@ -50,6 +69,8 @@ export function NewTransactionModal({
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       overlayClassName="react-modal-overlay"
+      shouldCloseOnEsc={!isSaving}
+      shouldCloseOnOverlayClick={!isSaving}
       className={`react-modal-content ${
         !isOpen ? 'react-modal-closing' : 'react-modal-opening'
       }`}
@@ -59,6 +80,7 @@ export function NewTransactionModal({
         type="button"
         onClick={onRequestClose}
         className="react-modal-close"
+        disabled={isSaving}
       >
         <img src={closeImg} alt="Fechar modal" />
       </button>
@@ -115,6 +137,7 @@ export function NewTransactionModal({
           height='4rem'
           backgroundColor='green'
           textColor='#fff'
+          isLoading={isSaving}
         >
           Cadastrar
         </Button>
