@@ -12,7 +12,7 @@ export function BackdropLoader({ fullScreen }: BackdropLoaderProps) {
 
   return (
     <Container fullScreen={fullScreen}>
-      <ClipLoader color={colors.primary} size={128} />
+      <ClipLoader color={colors.green} size={128} />
       <h2>Obtendo dados. . .</h2>
     </Container>
   )
