@@ -1,18 +1,7 @@
-import styled, { DefaultTheme } from 'styled-components'
-import { LiteralUnion } from 'prettier'
+import styled from 'styled-components'
+import { ButtonProps, ThemeColors } from './types'
 
-type ThemeColors = keyof DefaultTheme["colors"]
-
-interface ButtonProps {
-  height?: string,
-  fontSize?: string,
-  minWidth?: string,
-  hoverMagnitude?: number,
-  backgroundColor?: LiteralUnion<ThemeColors, string>,
-  textColor?: LiteralUnion<ThemeColors, string>,
-}
-
-export const Button = styled.button<ButtonProps>`
+export const Container = styled.button<ButtonProps>`
   padding: 0.25rem;
 
   background: ${ctx => 
@@ -41,16 +30,7 @@ export const Button = styled.button<ButtonProps>`
     };
   }
 
-  &:hover {
+  &:hover:not(:disabled) {
     filter: brightness(${ctx => ctx.hoverMagnitude});
   }
 `
-
-Button.defaultProps = {
-  textColor: 'textTitle',
-  backgroundColor: 'green',
-  fontSize: '1.05rem',
-  height: 'initial',
-  minWidth: 'initial',
-  hoverMagnitude: 0.85,
-}
