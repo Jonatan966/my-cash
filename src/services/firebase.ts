@@ -20,7 +20,4 @@ const app = initializeApp(firebaseConfig)
 const firestoreConfig = getFirestore(app)
 const authConfig = getAuth(app)
 
-firestoreApp.enableIndexedDbPersistence(firestoreConfig)
-  .then(() => console.log('[firestore] persistência ativada'))
-
 export { authConfig, firestoreConfig, firebaseApp, firestoreApp, authApp }
