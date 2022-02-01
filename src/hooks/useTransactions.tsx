@@ -27,6 +27,7 @@ interface TransactionsContextData {
   isNewTransactionModalOpen: boolean
   isRemoveModalOpen: boolean
   selectedTransaction?: string
+  isFetchingTransactions?: boolean
 
   createTransaction: (transaction: TransactionInput) => Promise<void>
   removeTransaction: () => Promise<void>
@@ -49,9 +50,12 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     useState(false)
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
   const [selectedTransaction, setSelectedTransaction] = useState<string | undefined>()
+  const [isFetchingTransactions, setIsFetchingTransactions] = useState(false)
 
   useEffect(() => {
     if (user) {
+      setIsFetchingTransactions(true)
+
       const transactionsCollRef = collection(
         firestoreConfig, 
         `/users/${user?.id}/transactions`
@@ -68,6 +72,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         )
 
         setTransactions(mappedDocs)
+        setIsFetchingTransactions(false)
       })
     }
   }, [user])
@@ -130,6 +135,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         selectedTransaction,
         isNewTransactionModalOpen,
         isRemoveModalOpen,
+        isFetchingTransactions,
         handleOpenNewTransactionModal,
         handleCloseNewTransactionModal,
         handleOpenRemoveTransactionModal,
