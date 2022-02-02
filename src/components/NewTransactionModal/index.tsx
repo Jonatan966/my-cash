@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react'
 import Modal from 'react-modal'
+import { toast } from 'react-toastify'
 
 import closeImg from 'assets/close.svg'
 import incomeImg from 'assets/income.svg'
@@ -10,7 +11,6 @@ import { GenericInput } from 'components/GenericInput'
 import { Button } from 'components/Button'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
-import { toast } from 'react-toastify'
 
 interface NewTransactionModalProps {
   isOpen: boolean
@@ -29,6 +29,8 @@ export function NewTransactionModal({
   const [isSaving, setIsSaving] = useState(false)
 
   const [type, setType] = useState<'deposit' | 'withdraw'>('deposit')
+
+  const hasFilledForm = title && amount && category
 
   useEffect(() => {
     if (isOpen) {
@@ -148,6 +150,7 @@ export function NewTransactionModal({
           backgroundColor='green'
           textColor='#fff'
           isLoading={isSaving}
+          disabled={!hasFilledForm && !isSaving}
         >
           Cadastrar
         </Button>
