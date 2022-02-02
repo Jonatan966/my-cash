@@ -22,7 +22,7 @@ export const MainContainer = styled.main`
 
   gap: 1rem;
 
-  > section {
+  > section, .emptyTransactions {
     max-width: 1120px;
     width: 100%;
 
@@ -31,6 +31,11 @@ export const MainContainer = styled.main`
 
   .pie-summary {
     max-width: 25rem;
+  }
+
+  .emptyTransactions {
+    text-align: center;
+    margin-top: 4rem;
   }
 
   @media (max-width: 380px) {
