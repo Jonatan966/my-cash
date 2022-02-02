@@ -15,6 +15,7 @@ import { useThemeSwitcher } from './useThemeSwitcher'
 import { ITransaction } from 'interfaces/Transactions'
 import { firestoreConfig } from 'services/firebase'
 import { useAuth } from 'contexts/authContext'
+import { ICategory } from 'interfaces/Category'
 
 type TransactionInput = Omit<ITransaction, 'id' | 'createdAt'>
 
@@ -24,6 +25,7 @@ interface TransactionsProviderProps {
 
 interface TransactionsContextData {
   transactions: ITransaction[]
+  categories: ICategory[]
   isNewTransactionModalOpen: boolean
   isRemoveModalOpen: boolean
   selectedTransaction?: string
@@ -46,6 +48,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const { user } = useAuth()
 
   const [transactions, setTransactions] = useState<ITransaction[]>([])
+  const [categories, setCategories] = useState<ICategory[]>([])
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
     useState(false)
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
@@ -58,8 +61,26 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
       const transactionsCollRef = collection(
         firestoreConfig, 
-        `/users/${user?.id}/transactions`
+        `/users/${user?.id}/transactions`,
       )
+
+      const categoriesCollRef = collection(
+        firestoreConfig, 
+        `/users/${user?.id}/categories`,
+      )
+
+      getDocs(categoriesCollRef).then(docs => {
+        const mappedDocs: ICategory[] = []
+
+        docs.forEach(doc => 
+          mappedDocs.push({
+            ...doc.data() as ICategory,
+            id: doc.id
+          })
+        )
+
+        setCategories(mappedDocs)
+      })
 
       getDocs(transactionsCollRef).then(docs => {
         const mappedDocs: ITransaction[] = []
@@ -77,6 +98,22 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     }
   }, [user])
 
+  async function createCategory(title: string) {
+    const categoriesCollRef = collection(
+      firestoreConfig, 
+      `/users/${user?.id}/categories`
+    )
+
+    let newCategory: ICategory = {
+      title,
+    }
+
+    const insertCategoryResult = await addDoc(categoriesCollRef, newCategory)
+
+    newCategory.id = insertCategoryResult.id
+    setCategories([...categories, newCategory])
+  }
+
   async function createTransaction(transactionInput: TransactionInput) {
     const transactionsCollRef = collection(firestoreConfig, `/users/${user?.id}/transactions`)
 
@@ -85,11 +122,19 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       createdAt: (new Date()).getTime(),
     }
 
+    const hasCreatedCategory = categories.some(category => 
+      category.title === newTransaction.category
+    )
+
     const insertResultRef = await addDoc(transactionsCollRef, newTransaction)
 
     newTransaction.id = insertResultRef.id
 
     setTransactions([...transactions, newTransaction])
+
+    if (!hasCreatedCategory) {
+      await createCategory(newTransaction.category)
+    }
   }
 
   function handleOpenNewTransactionModal() {
@@ -130,6 +175,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     <TransactionsContext.Provider
       value={{
         transactions,
+        categories,
         createTransaction,
         removeTransaction,
         selectedTransaction,

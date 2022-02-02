@@ -112,4 +112,10 @@ export const GlobalStyle = createGlobalStyle`
       filter: brightness(0.8)
     }
   }
+
+  
+  input::-webkit-calendar-picker-indicator {
+    opacity: 100;
+    transform: translateY(-15%);
+  }
 `

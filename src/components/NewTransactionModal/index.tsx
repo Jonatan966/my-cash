@@ -21,7 +21,7 @@ export function NewTransactionModal({
   isOpen,
   onRequestClose,
 }: NewTransactionModalProps) {
-  const { createTransaction } = useTransactions()
+  const { createTransaction, categories } = useTransactions()
 
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
@@ -128,9 +128,19 @@ export function NewTransactionModal({
         <GenericInput
           title="Categoria"
           placeholder="Ex: Lazer"
+          list="categories"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
         />
+
+        <datalist id="categories">
+          {categories.map(category => 
+            <option
+              value={category.title}
+              key={category.id}
+            />
+          )}
+        </datalist>
 
         <Button 
           type='submit'
