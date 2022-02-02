@@ -94,6 +94,7 @@ export function NewTransactionModal({
           placeholder="Ex: Video game"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
+          autoFocus
         />
         <GenericInput
           type="number"
