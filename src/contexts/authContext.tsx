@@ -12,6 +12,7 @@ interface AuthContextProps {
   signOut: () => Promise<void>;
   user: User | undefined;
   isLoadingUserInformation: boolean;
+  isAuthenticating: boolean;
 }
 
 interface AuthProviderProps {
@@ -23,6 +24,7 @@ const AuthContext = createContext({} as AuthContextProps)
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>()
   const [isLoadingUserInformation, setIsLoadingUserInformation] = useState(true)
+  const [isAuthenticating, setIsAuthenticating] = useState(false)
   const router = useHistory()
 
   useEffect(() => {
@@ -42,6 +44,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, [router])
 
   async function signIn(targetProvider: TargetProviders) {
+    setIsAuthenticating(true)
+
     const providers = {
       google: new authApp.GoogleAuthProvider(),
       facebook: new authApp.FacebookAuthProvider(),
@@ -63,8 +67,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
     } catch {
       toast.error("Ocorreu um erro ao tentar fazer login. Verifique sua conexão e tente novamente")
+    } finally {
+      setIsAuthenticating(false)
     }
-
   }
 
   async function signOut() {
@@ -92,7 +97,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       user,
       signIn,
       signOut,
-      isLoadingUserInformation
+      isLoadingUserInformation,
+      isAuthenticating,
     }}>
       {children}
     </AuthContext.Provider>

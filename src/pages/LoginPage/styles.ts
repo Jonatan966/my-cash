@@ -38,18 +38,12 @@ export const ActionsContainer = styled.main`
 
   button {
     height: 3.5rem;
-    border: none;
-    border-radius: 0.25rem;
 
     background: ${props => props.theme.colors.background};
     color: ${props => props.theme.colors.text};
-    font-weight: bolder;
+    font-size: 14px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    transition: filter 0.2s;
+    flex-direction: row;
 
     svg {
       width: 2rem;
@@ -65,13 +59,9 @@ export const ActionsContainer = styled.main`
       border: 1px solid ${props => props.theme.colors.inputBorder};
       height: 100%;
     }
-
-    &:hover {
-      filter: brightness(0.8);
-    }
   }
 
-  div {
+  .actions {
     position: absolute;
     top: -1.75rem;
     left: 0;
