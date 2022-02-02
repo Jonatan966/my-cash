@@ -4,27 +4,32 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { ListingPage } from 'pages/ListingPage'
 import { SummaryPage } from 'pages/SummaryPage'
 import { LoginPage } from 'pages/LoginPage'
+import { Toast } from 'components/Toast'
 
 import { ThemeSwitcherProvider } from './hooks/useThemeSwitcher'
 import { TransactionsProvider } from './hooks/useTransactions'
 
 import { GlobalStyle } from './styles/global'
+import { AuthProvider } from 'contexts/authContext'
 
 Modal.setAppElement('#root')
 
 export function App() {
   return (
     <BrowserRouter>
-      <ThemeSwitcherProvider>
-        <TransactionsProvider>
-          <Switch>
-            <Route exact path="/" component={ListingPage} />
-            <Route path="/summary" component={SummaryPage} />
-            <Route path="/auth" component={LoginPage} />
-          </Switch>
-          <GlobalStyle />
-        </TransactionsProvider>
-      </ThemeSwitcherProvider>
+      <AuthProvider>
+          <ThemeSwitcherProvider>
+            <Toast />
+            <TransactionsProvider>
+              <Switch>
+                <Route exact path="/" component={ListingPage} />
+                <Route path="/summary" component={SummaryPage} />
+                <Route path="/auth" component={LoginPage} />
+              </Switch>
+              <GlobalStyle />
+            </TransactionsProvider>
+          </ThemeSwitcherProvider>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

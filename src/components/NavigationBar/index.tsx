@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import { useTransactions } from 'hooks/useTransactions'
+import { Button } from 'components/Button'
 
 import { Container } from './styles'
 
@@ -13,31 +14,40 @@ interface NavigationBarProps {
 
 export function NavigationBar({ selectedRoute }: NavigationBarProps) {
   const { handleOpenNewTransactionModal } = useTransactions()
+  const { push } = useHistory()
+
+  const setSelectedClass = (targetRoute: NavigationBarProps['selectedRoute']) =>
+    selectedRoute === targetRoute ? 'selected-btn' : ''
 
   return (
     <Container>
       <nav>
-        <Link
-          to="/"
-          className={selectedRoute === 'listing' ? 'selected-btn' : ''}
+        <Button
+          backgroundColor="none"
+          className={setSelectedClass('listing')}
+          onClick={() => push('/')}
         >
           <ListImg />
           Listagem
-        </Link>
-        <button
+        </Button>
+
+        <Button
           title="Nova transação"
-          className="new-btn"
           onClick={handleOpenNewTransactionModal}
+          textColor="#fff"
+          fontSize="1.75rem"
         >
           +
-        </button>
-        <Link
-          to="/summary"
-          className={selectedRoute === 'summary' ? 'selected-btn' : ''}
+        </Button>
+
+        <Button
+          backgroundColor="none"
+          className={setSelectedClass('summary')}
+          onClick={() => push('/summary')}
         >
           <PieChartImg />
-          Resumo
-        </Link>
+          Resumo        
+        </Button>
       </nav>
     </Container>
   )

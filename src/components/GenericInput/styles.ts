@@ -6,6 +6,7 @@ export const Container = styled.div`
   span {
     font-size: 0.95rem;
     line-height: 1.75rem;
+    color: ${props => props.theme.colors.text};
   }
 `
 

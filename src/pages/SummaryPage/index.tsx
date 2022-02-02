@@ -73,7 +73,6 @@ export function SummaryPage() {
                   data: summaryCategories.map(({ amount }) => amount),
                   backgroundColor: summaryCategories.map(({ color }) => color),
                   borderWidth: 0,
-                  barPercentage: 0.5,
                 },
               ],
             }}

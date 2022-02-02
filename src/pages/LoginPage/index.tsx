@@ -2,9 +2,15 @@ import { ReactComponent as LogoImg } from 'assets/logo.svg'
 import { ReactComponent as GoogleImg } from 'assets/google-logo.svg'
 import { ReactComponent as FacebookImg } from 'assets/facebook-logo.svg'
 
+import { useAuth } from 'contexts/authContext'
+
 import { ActionsContainer, Header } from './styles'
+import { Button } from 'components/Button'
+import { BackdropLoader } from 'components/BackdropLoader'
 
 export function LoginPage() {
+  const { signIn, isAuthenticating } = useAuth()
+
   return (
     <>
       <Header>
@@ -16,24 +22,36 @@ export function LoginPage() {
       </Header>
 
       <ActionsContainer>
-        <div>
-          <button>
-            <GoogleImg />
-            <hr />
-            <span>Entrar com Google</span>
-          </button>
+        <div className='actions'>
+          {isAuthenticating 
+            ? <BackdropLoader 
+                title='Autenticando. . .' 
+                color='text' 
+              /> 
+            : (
+            <>
+              <Button  onClick={() => signIn('google')}>
+                <GoogleImg />
+                <hr />
+                <span>Entrar com Google</span>
+                </Button>
 
-          <button>
-            <FacebookImg />
-            <hr />
-            <span>Entrar com Facebook</span>
-          </button>
+              <Button  onClick={() => signIn('facebook')}>
+                <FacebookImg />
+                <hr />
+                <span>Entrar com Facebook</span> 
+              </Button>
 
-          <span className='separator' data-content='Ou' />
-          
-          <button className='without-login-btn'>
-            <span>Entrar sem fazer login</span>
-          </button>
+              <span className='separator' data-content='Ou' />
+              
+              <Button 
+                onClick={() => signIn('anonymous')} 
+                className='without-login-btn'
+              >
+                <span>Entrar sem fazer login</span>
+              </Button>
+            </>
+          )}
         </div>
       </ActionsContainer>
     </>

@@ -14,24 +14,9 @@ export const Container = styled.form`
 
   button[type=submit] {
     width: 100%;
-    height: 4rem;
 
     padding: 0 1.5rem;
     margin-top: 1.5rem;
-
-    background: ${ctx => ctx.theme.colors.green};
-
-    color: #fff;
-    font-size: 1rem;
-
-    border-radius: 0.25rem;
-    border: 0;
-
-    transition: filter 0.2s;
-
-    &:hover {
-      filter: brightness(0.9);
-    }
   }
 `
 

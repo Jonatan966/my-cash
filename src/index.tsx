@@ -12,4 +12,4 @@ ReactDOM.render(
   document.getElementById('root')
 )
 
-ServiceWorkerRegistration.unregister()
+ServiceWorkerRegistration.register()

@@ -1,16 +1,16 @@
 import styled from 'styled-components'
+import { Swiper } from 'swiper/react'
 
-export const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+export const Container = styled(Swiper)`
   margin-top: -10rem;
 
-  div {
+  .swiper-slide {
     background: ${ctx => ctx.theme.colors.shape};
     padding: 1.5rem 2rem;
     border-radius: 0.25rem;
     color: ${ctx => ctx.theme.colors.textTitle};
+
+    user-select: none;
 
     header {
       display: flex;
@@ -29,18 +29,6 @@ export const Container = styled.div`
     &.highlight-background {
       background: ${ctx => ctx.theme.colors.green};
       color: #fff;
-    }
-  }
-
-  @media (max-width: 820px) {
-    overflow-x: hidden;
-    min-width: 100vw;
-    transform: translateX(-1rem);
-    padding: 0 1rem;
-
-
-    div {
-      min-width: 70vw;
     }
   }
 `

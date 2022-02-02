@@ -1,8 +1,8 @@
 export interface ITransaction {
-  id?: number,
+  id?: string,
   title: string,
   amount: number,
   category: string,
   type: 'deposit' | 'withdraw',
-  createdAt: Date
+  createdAt: number
 }
