@@ -5,7 +5,13 @@
 ---
 
 ## :computer: Sobre
-Este projeto consiste em um gerenciador de finanças. Nele é possível registrar todas as entradas e saídas de dinheiro, e é possível visualizar o valor total de todas as transações.
+Este projeto consiste em um gerenciador de finanças. Nele é possível registrar todas as entradas e saídas de dinheiro, e é possível visualizar o valor total de todas as transações. Para utilizá-lo, basta acessar por [este link](https://the-dt-money.vercel.app/)
+
+## :gear: Funcionalidades
+- Login social;
+- Cadastro e listagem de transações;
+- Resumo das transações por categoria e mês, em formato de gráfico;
+- Tema claro e escuro.
 
 ## :camera: Demonstração
 <p align="center">
@@ -28,5 +34,6 @@ Este projeto consiste em um gerenciador de finanças. Nele é possível registra
 As tecnologias principais utilizadas neste projeto são as seguintes:
 - React
 - Styled Components
-- IndexedDB
-- Dexie
+- Firebase
+- Swiper
+- Chart.JS
