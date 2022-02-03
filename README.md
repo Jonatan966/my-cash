@@ -1,11 +1,9 @@
-<p align="center">
-  <img src="src/assets/logo.svg" width="275">
-</p>
+![My Cash](./github/banner.png)
 
 ---
 
 ## :computer: Sobre
-Este projeto consiste em um gerenciador de finanças. Nele é possível registrar todas as entradas e saídas de dinheiro, e é possível visualizar o valor total de todas as transações. Para utilizá-lo, basta acessar por [este link](https://the-dt-money.vercel.app/)
+Este projeto consiste em um gerenciador de finanças. Nele é possível registrar todas as entradas e saídas de dinheiro, e é possível visualizar o valor total de todas as transações. Para utilizá-lo, basta acessar por [este link](https://my-cash.vercel.app/)
 
 ## :gear: Funcionalidades
 - Login social;
