@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const Header = styled.header`
-  background: ${ctx => ctx.theme.colors.primary};
+  background: ${(ctx) => ctx.theme.colors.primary};
 
   padding: 1rem;
   text-align: center;
@@ -22,7 +22,8 @@ export const MainContainer = styled.main`
 
   gap: 1rem;
 
-  > section, .emptyTransactions {
+  > section,
+  .emptyTransactions {
     max-width: 1120px;
     width: 100%;
 
@@ -36,6 +37,8 @@ export const MainContainer = styled.main`
   .emptyTransactions {
     text-align: center;
     margin-top: 4rem;
+
+    color: ${(ctx) => ctx.theme.colors.textBody};
   }
 
   @media (max-width: 380px) {
@@ -56,13 +59,12 @@ export const MainContainer = styled.main`
   @media (max-width: 768px) {
     .pie-labels-list {
       grid-template-columns: repeat(2, 1fr);
-    } 
+    }
   }
 
   @media (max-width: 425px) {
     .pie-labels-list {
       grid-template-columns: 1fr;
-      
     }
   }
 `
@@ -82,15 +84,16 @@ export const MonthSwitcher = styled.section`
   svg {
     zoom: 1.5;
   }
-  
-  &, svg {
-    color: ${ctx => ctx.theme.colors.text};
+
+  &,
+  svg {
+    color: ${(ctx) => ctx.theme.colors.text};
   }
 `
 
 export const PieLabel = styled.div`
-  background: ${ctx => ctx.theme.colors.shape};
-  color: ${ctx => ctx.theme.colors.textTitle};
+  background: ${(ctx) => ctx.theme.colors.shape};
+  color: ${(ctx) => ctx.theme.colors.textTitle};
 
   padding: 0.75rem;
   border-radius: 0.25rem;
@@ -98,5 +101,6 @@ export const PieLabel = styled.div`
   display: flex;
   justify-content: space-between;
 
-  border-left: 0.25rem solid ${ctx => ctx.color || ctx.theme.colors.primaryLight};
+  border-left: 0.25rem solid
+    ${(ctx) => ctx.color || ctx.theme.colors.primaryLight};
 `

@@ -13,7 +13,7 @@ interface NavigationBarProps {
 }
 
 export function NavigationBar({ selectedRoute }: NavigationBarProps) {
-  const { handleOpenNewTransactionModal } = useTransactions()
+  const { handleToggleNewTransactionModal } = useTransactions()
   const { push } = useHistory()
 
   const setSelectedClass = (targetRoute: NavigationBarProps['selectedRoute']) =>
@@ -33,7 +33,7 @@ export function NavigationBar({ selectedRoute }: NavigationBarProps) {
 
         <Button
           title="Nova transação"
-          onClick={handleOpenNewTransactionModal}
+          onClick={() => handleToggleNewTransactionModal(true)}
           textColor="#fff"
           fontSize="1.75rem"
         >
@@ -46,7 +46,7 @@ export function NavigationBar({ selectedRoute }: NavigationBarProps) {
           onClick={() => push('/summary')}
         >
           <PieChartImg />
-          Resumo        
+          Resumo
         </Button>
       </nav>
     </Container>

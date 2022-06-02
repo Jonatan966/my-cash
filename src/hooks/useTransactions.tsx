@@ -5,10 +5,20 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { addDoc, collection, deleteDoc, doc, getDocs } from '@firebase/firestore'
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from '@firebase/firestore'
 
-import { NewTransactionModal } from 'components/NewTransactionModal'
-import { RemoveTransactionModal } from 'components/RemoveTransactionModal'
+import {
+  NewTransactionModal,
+  EditTransactionModal,
+} from 'components/TransactionModal'
+import { RemoveTransactionDialog } from 'components/RemoveTransactionDialog'
 
 import { useThemeSwitcher } from './useThemeSwitcher'
 
@@ -26,17 +36,18 @@ interface TransactionsProviderProps {
 interface TransactionsContextData {
   transactions: ITransaction[]
   categories: ICategory[]
-  isNewTransactionModalOpen: boolean
-  isRemoveModalOpen: boolean
-  selectedTransaction?: string
+  selectedTransaction?: ITransaction
   isFetchingTransactions?: boolean
 
   createTransaction: (transaction: TransactionInput) => Promise<void>
   removeTransaction: () => Promise<void>
-  handleOpenNewTransactionModal: () => void
-  handleCloseNewTransactionModal: () => void
-  handleOpenRemoveTransactionModal: (transactionId: string) => void
-  handleCloseRemoveTransactionModal: () => void
+  editTransaction: (transaction: ITransaction) => Promise<void>
+  handleToggleNewTransactionModal: (
+    isOpen: boolean,
+    transaction?: ITransaction
+  ) => void
+  handleToggleRemoveTransactionDialog: (transaction?: ITransaction) => void
+  handleToggleEditTransactionModal: (transaction?: ITransaction) => void
 }
 
 export const TransactionsContext = createContext<TransactionsContextData>(
@@ -47,48 +58,53 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const { setScrollbarVisibility } = useThemeSwitcher()
   const { user } = useAuth()
 
+  const [isFetchingTransactions, setIsFetchingTransactions] = useState(false)
   const [transactions, setTransactions] = useState<ITransaction[]>([])
   const [categories, setCategories] = useState<ICategory[]>([])
+  const [selectedTransaction, setSelectedTransaction] = useState<
+    ITransaction | undefined
+  >()
+
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
     useState(false)
+  const [isEditTransactionModalOpen, setIsEditTransactionModalOpen] =
+    useState(false)
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
-  const [selectedTransaction, setSelectedTransaction] = useState<string | undefined>()
-  const [isFetchingTransactions, setIsFetchingTransactions] = useState(false)
 
   useEffect(() => {
     if (user) {
       setIsFetchingTransactions(true)
 
       const transactionsCollRef = collection(
-        firestoreConfig, 
-        `/users/${user?.id}/transactions`,
+        firestoreConfig,
+        `/users/${user?.id}/transactions`
       )
 
       const categoriesCollRef = collection(
-        firestoreConfig, 
-        `/users/${user?.id}/categories`,
+        firestoreConfig,
+        `/users/${user?.id}/categories`
       )
 
-      getDocs(categoriesCollRef).then(docs => {
+      getDocs(categoriesCollRef).then((docs) => {
         const mappedDocs: ICategory[] = []
 
-        docs.forEach(doc => 
+        docs.forEach((doc) =>
           mappedDocs.push({
-            ...doc.data() as ICategory,
-            id: doc.id
+            ...(doc.data() as ICategory),
+            id: doc.id,
           })
         )
 
         setCategories(mappedDocs)
       })
 
-      getDocs(transactionsCollRef).then(docs => {
+      getDocs(transactionsCollRef).then((docs) => {
         const mappedDocs: ITransaction[] = []
 
-        docs.forEach(doc => 
+        docs.forEach((doc) =>
           mappedDocs.push({
-            ...doc.data() as ITransaction,
-            id: doc.id
+            ...(doc.data() as ITransaction),
+            id: doc.id,
           })
         )
 
@@ -100,7 +116,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   async function createCategory(title: string) {
     const categoriesCollRef = collection(
-      firestoreConfig, 
+      firestoreConfig,
       `/users/${user?.id}/categories`
     )
 
@@ -115,15 +131,18 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   }
 
   async function createTransaction(transactionInput: TransactionInput) {
-    const transactionsCollRef = collection(firestoreConfig, `/users/${user?.id}/transactions`)
+    const transactionsCollRef = collection(
+      firestoreConfig,
+      `/users/${user?.id}/transactions`
+    )
 
     let newTransaction: ITransaction = {
       ...transactionInput,
-      createdAt: (new Date()).getTime(),
+      createdAt: new Date().getTime(),
     }
 
-    const hasCreatedCategory = categories.some(category => 
-      category.title === newTransaction.category
+    const hasCreatedCategory = categories.some(
+      (category) => category.title === newTransaction.category
     )
 
     const insertResultRef = await addDoc(transactionsCollRef, newTransaction)
@@ -137,37 +156,76 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     }
   }
 
-  function handleOpenNewTransactionModal() {
-    setScrollbarVisibility(false)
-    setIsNewTransactionModalOpen(true)
+  async function editTransaction({
+    id: transactionId,
+    createdAt,
+    ...transaction
+  }: ITransaction) {
+    const transactionDocRef = doc(
+      firestoreConfig,
+      `/users/${user?.id}/transactions/${transactionId}`
+    )
+
+    const hasCreatedCategory = categories.some(
+      (category) => category.title === transaction.category
+    )
+
+    await updateDoc(transactionDocRef, {
+      ...transaction,
+    })
+
+    setTransactions((transactions) => {
+      const newTransactionList = [...transactions]
+
+      const targetTransaction = newTransactionList.findIndex(
+        (transaction) => transaction.id === transactionId
+      )
+
+      newTransactionList[targetTransaction] = {
+        ...newTransactionList[targetTransaction],
+        ...transaction,
+      }
+
+      return newTransactionList
+    })
+
+    if (!hasCreatedCategory) {
+      await createCategory(transaction.category)
+    }
   }
 
-  function handleCloseNewTransactionModal() {
-    setScrollbarVisibility(true)
-    setIsNewTransactionModalOpen(false)
+  function handleToggleNewTransactionModal(isOpen: boolean) {
+    setScrollbarVisibility(!isOpen)
+    setIsNewTransactionModalOpen(isOpen)
   }
 
-  function handleOpenRemoveTransactionModal(transactionId: string) {
-    setScrollbarVisibility(false)
-    setSelectedTransaction(transactionId)
-    setIsRemoveModalOpen(true)
+  function handleToggleEditTransactionModal(transaction?: ITransaction) {
+    setScrollbarVisibility(!transaction)
+    setIsEditTransactionModalOpen(!!transaction)
+    setSelectedTransaction(transaction)
   }
 
-  function handleCloseRemoveTransactionModal() {
-    setScrollbarVisibility(true)
-    setIsRemoveModalOpen(false)
+  function handleToggleRemoveTransactionDialog(transaction?: ITransaction) {
+    setScrollbarVisibility(!transaction)
+    setIsRemoveModalOpen(!!transaction)
+
+    if (transaction) {
+      setSelectedTransaction(transaction)
+    }
   }
 
   async function removeTransaction() {
     const transactionsCollRef = doc(
-      firestoreConfig, 
-      `/users/${user?.id}/transactions/${selectedTransaction}`
+      firestoreConfig,
+      `/users/${user?.id}/transactions/${selectedTransaction?.id}`
     )
 
     await deleteDoc(transactionsCollRef)
 
     setTransactions((oldValue) =>
-      oldValue.filter((transaction) => transaction.id !== selectedTransaction)
+      oldValue.filter(
+        (transaction) => transaction.id !== selectedTransaction?.id
+      )
     )
   }
 
@@ -177,23 +235,19 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
         transactions,
         categories,
         createTransaction,
+        editTransaction,
         removeTransaction,
         selectedTransaction,
-        isNewTransactionModalOpen,
-        isRemoveModalOpen,
         isFetchingTransactions,
-        handleOpenNewTransactionModal,
-        handleCloseNewTransactionModal,
-        handleOpenRemoveTransactionModal,
-        handleCloseRemoveTransactionModal,
+        handleToggleNewTransactionModal,
+        handleToggleRemoveTransactionDialog,
+        handleToggleEditTransactionModal,
       }}
     >
       {children}
-      <NewTransactionModal
-        isOpen={isNewTransactionModalOpen}
-        onRequestClose={handleCloseNewTransactionModal}
-      />
-      <RemoveTransactionModal />
+      <NewTransactionModal isOpen={isNewTransactionModalOpen} />
+      <EditTransactionModal isOpen={isEditTransactionModalOpen} />
+      <RemoveTransactionDialog isOpen={isRemoveModalOpen} />
     </TransactionsContext.Provider>
   )
 }
