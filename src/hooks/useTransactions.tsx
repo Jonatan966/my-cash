@@ -175,16 +175,18 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     })
 
     setTransactions((transactions) => {
-      const targetTransaction = transactions.findIndex(
+      const newTransactionList = [...transactions]
+
+      const targetTransaction = newTransactionList.findIndex(
         (transaction) => transaction.id === transactionId
       )
 
-      transactions[targetTransaction] = Object.assign(
-        transactions[targetTransaction],
-        transaction
-      )
+      newTransactionList[targetTransaction] = {
+        ...newTransactionList[targetTransaction],
+        ...transaction,
+      }
 
-      return transactions
+      return newTransactionList
     })
 
     if (!hasCreatedCategory) {

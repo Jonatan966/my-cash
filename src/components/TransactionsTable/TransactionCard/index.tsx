@@ -1,9 +1,13 @@
+import dayjs from 'dayjs'
+import 'dayjs/locale/pt-br'
+
 import { Button } from 'components/Button'
 import { ITransaction } from 'interfaces/Transactions'
 
 import trashImg from 'assets/trash.svg'
 import editImg from 'assets/edit.svg'
 import Container from './styles'
+import { useMemo } from 'react'
 
 interface TransactionCardProps {
   transaction: ITransaction
@@ -21,9 +25,15 @@ export function TransactionCard({
     currency: 'BRL',
   }).format(transaction.amount)
 
-  const formattedCreationDate = new Intl.DateTimeFormat('pt-BR').format(
-    new Date(transaction.createdAt)
-  )
+  const formattedCreationDate = useMemo(() => {
+    const formattedDate = dayjs(
+      transaction.transactionDate || transaction.createdAt
+    )
+      .locale('pt-BR')
+      .format('DD/MM/YYYY')
+
+    return formattedDate
+  }, [transaction])
 
   return (
     <Container>

@@ -11,6 +11,7 @@ import { GenericInput } from 'components/GenericInput'
 import { Button } from 'components/Button'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
+import { getFormattedDate } from 'utils/get-formatted-date'
 
 interface EditTransactionModalProps {
   isOpen: boolean
@@ -28,9 +29,15 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [transactionDate, setTransactionDate] = useState('')
 
   const [type, setType] = useState<'deposit' | 'withdraw'>(
     selectedTransaction?.type || 'deposit'
+  )
+
+  const currentDate = getFormattedDate(new Date())
+  const transactionCreatedAt = getFormattedDate(
+    new Date(selectedTransaction?.createdAt || 0)
   )
 
   const hasFilledForm = title && amount && category
@@ -45,6 +52,10 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
       setAmount(selectedTransaction.amount)
       setCategory(selectedTransaction.category)
       setType(selectedTransaction.type)
+      setTransactionDate(
+        selectedTransaction.transactionDate ||
+          getFormattedDate(new Date(selectedTransaction.createdAt || 0))
+      )
     }
   }, [isOpen, selectedTransaction])
 
@@ -61,6 +72,7 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
       amount,
       category,
       type,
+      transactionDate,
     }
 
     const editionPromise = editTransaction(updatedTransaction)
@@ -106,7 +118,13 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
           placeholder="Ex: Video game"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
-          autoFocus
+        />
+        <GenericInput
+          title="Data"
+          type="date"
+          max={currentDate}
+          value={transactionDate || transactionCreatedAt}
+          onChange={(event) => setTransactionDate(event.target.value)}
         />
         <GenericInput
           type="number"

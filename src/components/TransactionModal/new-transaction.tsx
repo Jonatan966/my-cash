@@ -11,32 +11,35 @@ import { GenericInput } from 'components/GenericInput'
 import { Button } from 'components/Button'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
+import { getFormattedDate } from 'utils/get-formatted-date'
 
 interface NewTransactionModalProps {
   isOpen: boolean
 }
 
 export function NewTransactionModal({ isOpen }: NewTransactionModalProps) {
-  const {
-    createTransaction,
-    categories,
-    selectedTransaction,
-    handleToggleNewTransactionModal,
-  } = useTransactions()
+  const { createTransaction, categories, handleToggleNewTransactionModal } =
+    useTransactions()
+
+  const currentDate = getFormattedDate(new Date())
 
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
   const [isSaving, setIsSaving] = useState(false)
+  const [transactionDate, setTransactionDate] = useState(currentDate)
 
-  const [type, setType] = useState<'deposit' | 'withdraw'>(
-    selectedTransaction?.type || 'deposit'
-  )
+  const [type, setType] = useState<'deposit' | 'withdraw'>('deposit')
 
   const hasFilledForm = title && amount && category
 
   useEffect(() => {
     if (!isOpen) return
+
+    setTitle('')
+    setAmount(0)
+    setCategory('')
+    setType('deposit')
 
     setIsSaving(false)
   }, [isOpen])
@@ -50,6 +53,7 @@ export function NewTransactionModal({ isOpen }: NewTransactionModalProps) {
       amount: isNaN(amount) ? 0 : amount,
       category,
       type,
+      transactionDate,
     })
 
     try {
@@ -96,6 +100,13 @@ export function NewTransactionModal({ isOpen }: NewTransactionModalProps) {
           autoFocus
         />
         <GenericInput
+          title="Data"
+          type="date"
+          max={currentDate}
+          value={transactionDate}
+          onChange={(event) => setTransactionDate(event.target.value)}
+        />
+        <GenericInput
           type="number"
           title="Valor"
           min={0}
@@ -130,6 +141,7 @@ export function NewTransactionModal({ isOpen }: NewTransactionModalProps) {
           title="Categoria"
           placeholder="Ex: Lazer"
           list="categories"
+          maxLength={20}
           value={category}
           onChange={(event) => setCategory(event.target.value)}
         />
