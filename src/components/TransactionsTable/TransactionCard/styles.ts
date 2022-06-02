@@ -4,29 +4,34 @@ const Container = styled.tr`
   td {
     padding: 1rem 2rem;
     border: 0;
-    background: ${ctx => ctx.theme.colors.shape};
-    color: ${ctx => ctx.theme.colors.textBody};
+    background: ${(ctx) => ctx.theme.colors.shape};
+    color: ${(ctx) => ctx.theme.colors.textBody};
     border-radius: 0.25rem;
 
     &:first-child {
-      color: ${ctx => ctx.theme.colors.textTitle};
+      color: ${(ctx) => ctx.theme.colors.textTitle};
     }
 
     &.deposit {
-      color: ${ctx => ctx.theme.colors.green};
+      color: ${(ctx) => ctx.theme.colors.green};
     }
 
     &.withdraw {
-      color: ${ctx => ctx.theme.colors.red};
+      color: ${(ctx) => ctx.theme.colors.red};
     }
 
-    &.trash {
+    &.actions {
       display: flex;
       align-items: center;
-      justify-content: center;
 
-      img {
-        filter: ${ctx => ctx.theme.colors.trashIcon};
+      gap: 0.5rem;
+
+      .trash {
+        filter: ${(ctx) => ctx.theme.colors.trashIcon};
+      }
+
+      .edit {
+        filter: ${(ctx) => ctx.theme.colors.editIcon};
       }
 
       button {
@@ -37,7 +42,7 @@ const Container = styled.tr`
 
   @media (max-width: 820px) {
     display: grid;
-    grid-template-areas: 
+    grid-template-areas:
       'title title'
       'amount amount'
       'category createdAt'
@@ -46,7 +51,7 @@ const Container = styled.tr`
     & + tr {
       margin: 1rem 0;
     }
-    
+
     td {
       padding: 1rem;
 
@@ -69,9 +74,7 @@ const Container = styled.tr`
       }
     }
 
-    
-    .trash {
-      gap: 0.5rem;
+    .actions {
       padding-top: 0;
 
       button {

@@ -7,7 +7,8 @@ import { TransactionCard } from './TransactionCard'
 export function TransactionsTable() {
   const {
     transactions,
-    handleOpenRemoveTransactionModal,
+    handleToggleRemoveTransactionDialog,
+    handleToggleEditTransactionModal,
     isFetchingTransactions,
   } = useTransactions()
 
@@ -32,13 +33,16 @@ export function TransactionsTable() {
           </thead>
 
           <tbody>
-            {transactions.map((transaction) => 
-              <TransactionCard 
-                key={`transaction-${transaction.id}`} 
-                transaction={transaction} 
-                onRemove={handleOpenRemoveTransactionModal}
+            {transactions.map((transaction) => (
+              <TransactionCard
+                key={`transaction-${transaction.id}`}
+                transaction={transaction}
+                onRemove={handleToggleRemoveTransactionDialog}
+                onEdit={(transaction) =>
+                  handleToggleEditTransactionModal(transaction)
+                }
               />
-            )}
+            ))}
           </tbody>
         </table>
       )}
