@@ -82,6 +82,17 @@ const Container = styled.tr`
       }
     }
   }
+
+  @media (min-width: 820px) {
+    td:nth-child(1),
+    td:nth-child(3) {
+      white-space: nowrap;
+      max-width: 15rem;
+      overflow: hidden;
+
+      text-overflow: ellipsis;
+    }
+  }
 `
 
 export default Container
