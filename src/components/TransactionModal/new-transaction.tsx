@@ -14,28 +14,31 @@ import { Container, RadioBox, TransactionTypeContainer } from './styles'
 
 interface NewTransactionModalProps {
   isOpen: boolean
-  onRequestClose: () => void
 }
 
-export function NewTransactionModal({
-  isOpen,
-  onRequestClose,
-}: NewTransactionModalProps) {
-  const { createTransaction, categories } = useTransactions()
+export function NewTransactionModal({ isOpen }: NewTransactionModalProps) {
+  const {
+    createTransaction,
+    categories,
+    selectedTransaction,
+    handleToggleNewTransactionModal,
+  } = useTransactions()
 
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
   const [category, setCategory] = useState('')
   const [isSaving, setIsSaving] = useState(false)
 
-  const [type, setType] = useState<'deposit' | 'withdraw'>('deposit')
+  const [type, setType] = useState<'deposit' | 'withdraw'>(
+    selectedTransaction?.type || 'deposit'
+  )
 
   const hasFilledForm = title && amount && category
 
   useEffect(() => {
-    if (isOpen) {
-      setIsSaving(false)
-    }
+    if (!isOpen) return
+
+    setIsSaving(false)
   }, [isOpen])
 
   async function handleCreateNewTransaction(event: FormEvent) {
@@ -53,14 +56,10 @@ export function NewTransactionModal({
       await toast.promise(creationPromise, {
         pending: 'Adicionando transação. . .',
         error: 'Não foi possível adicionar essa transação',
-        success: 'Transação adicionada com sucesso!'
+        success: 'Transação adicionada com sucesso!',
       })
-  
-      setTitle('')
-      setAmount(0)
-      setCategory('')
-      setType('deposit')
-      onRequestClose()  
+
+      handleToggleNewTransactionModal(false)
     } catch {
       setIsSaving(false)
     }
@@ -69,7 +68,7 @@ export function NewTransactionModal({
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      onRequestClose={() => handleToggleNewTransactionModal(false)}
       overlayClassName="react-modal-overlay"
       shouldCloseOnEsc={!isSaving}
       shouldCloseOnOverlayClick={!isSaving}
@@ -80,17 +79,17 @@ export function NewTransactionModal({
     >
       <button
         type="button"
-        onClick={onRequestClose}
+        onClick={() => handleToggleNewTransactionModal(false)}
         className="react-modal-close"
         disabled={isSaving}
       >
         <img src={closeImg} alt="Fechar modal" />
       </button>
       <Container onSubmit={handleCreateNewTransaction}>
-        <h2>Cadastrar transação</h2>
+        <h2>Cadastrar Transação</h2>
 
         <GenericInput
-          title='Título'
+          title="Título"
           placeholder="Ex: Video game"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
@@ -100,10 +99,9 @@ export function NewTransactionModal({
           type="number"
           title="Valor"
           min={0}
+          step=".01"
           value={amount}
-          onChange={(event) =>
-            setAmount(event.target.valueAsNumber)
-          }
+          onChange={(event) => setAmount(event.target.valueAsNumber)}
         />
 
         <TransactionTypeContainer>
@@ -137,19 +135,16 @@ export function NewTransactionModal({
         />
 
         <datalist id="categories">
-          {categories.map(category => 
-            <option
-              value={category.title}
-              key={category.id}
-            />
-          )}
+          {categories.map((category) => (
+            <option value={category.title} key={category.id} />
+          ))}
         </datalist>
 
-        <Button 
-          type='submit'
-          height='4rem'
-          backgroundColor='green'
-          textColor='#fff'
+        <Button
+          type="submit"
+          height="4rem"
+          backgroundColor="green"
+          textColor="#fff"
           isLoading={isSaving}
           disabled={!hasFilledForm && !isSaving}
         >

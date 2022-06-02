@@ -13,13 +13,18 @@ export default {
     textTitle: '#A5B7CC',
     textBody: '#afa89d',
     text: 'white',
-    
+
     shape: '#181A1B',
 
     inputBg: '#242728',
     inputBorder: '#3b4043',
 
-    trashIcon: 'invert(67%) sepia(3%) saturate(4859%) hue-rotate(305deg) brightness(110%) contrast(86%)',
-    trashBg: '#e52e40'
-  }
+    trashIcon:
+      'invert(67%) sepia(3%) saturate(4859%) hue-rotate(305deg) brightness(110%) contrast(86%)',
+    trashBg: '#e52e40',
+
+    editIcon:
+      'invert(88%) sepia(48%) saturate(298%) hue-rotate(345deg) brightness(97%) contrast(97%)',
+    editBg: '#e5ab2e',
+  },
 } as DefaultTheme

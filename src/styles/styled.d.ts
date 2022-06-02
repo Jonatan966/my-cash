@@ -1,30 +1,33 @@
-import 'styled-components';
+import 'styled-components'
 
 declare module 'styled-components' {
   export interface DefaultTheme {
-    title: 'dark' | 'light';
+    title: 'dark' | 'light'
 
     colors: {
-      background: string;
-      red: string;
-      primary: string;
-      green: string;
-  
-      primaryLight: string;
-  
-      textTitle: string;
-      textBody: string;
-      text: string;
+      background: string
+      red: string
+      primary: string
+      green: string
 
-      shape: string;
-      
-      inputBorder: string;
-      inputBg: string;
+      primaryLight: string
 
-      trashBg: string;
-      trashIcon: string;
+      textTitle: string
+      textBody: string
+      text: string
+
+      shape: string
+
+      inputBorder: string
+      inputBg: string
+
+      trashBg: string
+      trashIcon: string
+
+      editBg: string
+      editIcon: string
     }
 
-    isScrollbarVisible: boolean;
+    isScrollbarVisible: boolean
   }
 }
