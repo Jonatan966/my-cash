@@ -201,14 +201,17 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   function handleToggleEditTransactionModal(transaction?: ITransaction) {
     setScrollbarVisibility(!transaction)
-    setSelectedTransaction(transaction)
     setIsEditTransactionModalOpen(!!transaction)
+    setSelectedTransaction(transaction)
   }
 
   function handleToggleRemoveTransactionDialog(transaction?: ITransaction) {
     setScrollbarVisibility(!transaction)
-    setSelectedTransaction(transaction)
     setIsRemoveModalOpen(!!transaction)
+
+    if (transaction) {
+      setSelectedTransaction(transaction)
+    }
   }
 
   async function removeTransaction() {

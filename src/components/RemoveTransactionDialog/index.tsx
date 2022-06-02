@@ -16,8 +16,11 @@ interface RemoveTransactionDialogProps {
 export function RemoveTransactionDialog({
   isOpen,
 }: RemoveTransactionDialogProps) {
-  const { handleToggleRemoveTransactionDialog, removeTransaction } =
-    useTransactions()
+  const {
+    handleToggleRemoveTransactionDialog,
+    removeTransaction,
+    selectedTransaction,
+  } = useTransactions()
   const [isRemoving, setIsRemoving] = useState(false)
 
   useEffect(() => {
@@ -68,7 +71,10 @@ export function RemoveTransactionDialog({
 
       <Container onSubmit={handleRemoveTransaction}>
         <h2>Remover transação</h2>
-        <p>Deseja mesmo remover essa transação?</p>
+        <p>
+          Deseja mesmo remover a transação "
+          <strong>{selectedTransaction?.title}</strong>"?
+        </p>
 
         <div className="actions">
           <Button
@@ -79,7 +85,7 @@ export function RemoveTransactionDialog({
             textColor="#fff"
             disabled={isRemoving}
           >
-            Cancelar
+            Não
           </Button>
           <Button
             type="submit"
