@@ -1,5 +1,7 @@
 import { BackdropLoader } from 'components/BackdropLoader'
+import dayjs from 'dayjs'
 import { useTransactions } from 'hooks/useTransactions'
+import { useMemo } from 'react'
 
 import { Container } from './styles'
 import { TransactionCard } from './TransactionCard'
@@ -11,6 +13,14 @@ export function TransactionsTable() {
     handleToggleEditTransactionModal,
     isFetchingTransactions,
   } = useTransactions()
+
+  const orderedTransactions = useMemo(() => {
+    return [...transactions].sort((a, b) =>
+      dayjs(b.transactionDate || b.createdAt).diff(
+        dayjs(a.transactionDate || a.createdAt)
+      )
+    )
+  }, [transactions])
 
   return (
     <Container itensCount={transactions.length}>
@@ -33,7 +43,7 @@ export function TransactionsTable() {
           </thead>
 
           <tbody>
-            {transactions.map((transaction) => (
+            {orderedTransactions.map((transaction) => (
               <TransactionCard
                 key={`transaction-${transaction.id}`}
                 transaction={transaction}
