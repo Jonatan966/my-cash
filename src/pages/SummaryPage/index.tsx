@@ -1,7 +1,9 @@
+import dayjs from 'dayjs'
 import { useMemo, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
 import { ChartOptions } from 'chart.js'
 import ChartDatalabelsPlugin from 'chartjs-plugin-datalabels'
+import 'dayjs/locale/pt-br'
 
 import { NavigationBar } from 'components/NavigationBar'
 import { useTransactions } from 'hooks/useTransactions'
@@ -9,30 +11,14 @@ import { useTransactions } from 'hooks/useTransactions'
 import { ReactComponent as ArrowImg } from 'assets/arrow-left.svg'
 
 import { chartFormatter } from 'services/chart'
-import { getFirstDateOfMonth } from 'utils/get-first-date-of-month'
 
 import { Header, MainContainer, MonthSwitcher, PieLabel } from './styles'
 
 interface Summary {
-  category: string,
-  amount: number,
-  color: string,
+  category: string
+  amount: number
+  color: string
 }
-
-const months = [
-  'Janeiro',
-  'Fevereiro',
-  'Março',
-  'Abril',
-  'Maio',
-  'Junho',
-  'Julho',
-  'Agosto',
-  'Setembro',
-  'Outubro',
-  'Novembro',
-  'Dezembro'
-]
 
 const SummaryPieConfig: ChartOptions = {
   plugins: {
@@ -53,16 +39,21 @@ const SummaryPieConfig: ChartOptions = {
 
 export function SummaryPage() {
   const { transactions } = useTransactions()
-  const [targetDate, setTargetDate] = useState(getFirstDateOfMonth)
+  const [targetDate, setTargetDate] = useState(() => {
+    return dayjs().startOf('month')
+  })
 
   const summary = useMemo(() => {
     const summaryObject = transactions.reduce((acc, transaction) => {
-      const transactionAmount = transaction.amount * (transaction.type === 'deposit' ? 1 : -1)
-      const color = 'hsla(' + (Math.random() * 360) + ', 50%, 50%, 1)'
+      const transactionAmount =
+        transaction.amount * (transaction.type === 'deposit' ? 1 : -1)
+      const color = `hsla(${Math.random() * 360}, 50%, 50%, 1)`
 
-      const transactionCreationDate = getFirstDateOfMonth(new Date(transaction.createdAt))
+      const transactionCreationDate = dayjs(
+        transaction.transactionDate || transaction.createdAt
+      ).startOf('month')
 
-      if (transactionCreationDate !== targetDate) {
+      if (!dayjs(transactionCreationDate).isSame(targetDate)) {
         return acc
       }
 
@@ -83,24 +74,21 @@ export function SummaryPage() {
   }, [transactions, targetDate])
 
   const currentPeriod = useMemo(() => {
-    const date = new Date(targetDate)
+    const date = dayjs(targetDate)
 
-    const currentMonth = date.getMonth()
-    const currentYear = date.getFullYear()
-
-    return `${months[currentMonth]}, ${currentYear}`
+    return date.locale('pt-BR').format('MMMM, YYYY')
   }, [targetDate])
 
   function changeTargetDate(direction: 'previous' | 'next') {
-    const date = new Date(targetDate)
+    let date = dayjs(targetDate)
 
     if (direction === 'previous') {
-      date.setMonth(date.getMonth() - 1)
+      date = date.subtract(1, 'month')
     } else {
-      date.setMonth(date.getMonth() + 1)
+      date = date.add(1, 'month')
     }
 
-    setTargetDate(getFirstDateOfMonth(date))
+    setTargetDate(dayjs(date).startOf('month'))
   }
 
   return (
@@ -125,7 +113,7 @@ export function SummaryPage() {
           </button>
         </MonthSwitcher>
         {summary.length === 0 ? (
-          <h2 className='emptyTransactions'>Não há transações neste mês</h2>
+          <h2 className="emptyTransactions">Não há transações neste mês</h2>
         ) : (
           <>
             <section className="pie-summary">
@@ -157,7 +145,6 @@ export function SummaryPage() {
             </section>
           </>
         )}
-        
       </MainContainer>
       <NavigationBar selectedRoute={'summary'} />
     </>
