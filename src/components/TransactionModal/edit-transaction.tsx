@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 
@@ -12,6 +12,8 @@ import { Button } from 'components/Button'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
 import { getFormattedDate } from 'utils/get-formatted-date'
+import { useForm, Controller } from 'react-hook-form'
+import { TransactionDTO } from './types'
 
 interface EditTransactionModalProps {
   isOpen: boolean
@@ -25,22 +27,12 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
     handleToggleEditTransactionModal,
   } = useTransactions()
 
-  const [title, setTitle] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [category, setCategory] = useState('')
-  const [isSaving, setIsSaving] = useState(false)
-  const [transactionDate, setTransactionDate] = useState('')
+  const { handleSubmit, register, control, setValue } =
+    useForm<TransactionDTO>()
 
-  const [type, setType] = useState<'deposit' | 'withdraw'>(
-    selectedTransaction?.type || 'deposit'
-  )
+  const [isSaving, setIsSaving] = useState(false)
 
   const currentDate = getFormattedDate(new Date())
-  const transactionCreatedAt = getFormattedDate(
-    new Date(selectedTransaction?.createdAt || 0)
-  )
-
-  const hasFilledForm = title && amount && category
 
   useEffect(() => {
     if (!isOpen) return
@@ -48,31 +40,26 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
     setIsSaving(false)
 
     if (selectedTransaction) {
-      setTitle(selectedTransaction.title)
-      setAmount(selectedTransaction.amount)
-      setCategory(selectedTransaction.category)
-      setType(selectedTransaction.type)
-      setTransactionDate(
+      setValue('title', selectedTransaction.title)
+      setValue('amount', selectedTransaction.amount)
+      setValue('category', selectedTransaction.category)
+      setValue('type', selectedTransaction.type)
+      setValue(
+        'transactionDate',
         selectedTransaction.transactionDate ||
           getFormattedDate(new Date(selectedTransaction.createdAt || 0))
       )
     }
-  }, [isOpen, selectedTransaction])
+  }, [isOpen, selectedTransaction, setValue])
 
-  async function handleEditTransaction(event: FormEvent) {
-    event.preventDefault()
-
+  async function handleEditTransaction(transaction: TransactionDTO) {
     if (!selectedTransaction) return
 
     setIsSaving(true)
 
     const updatedTransaction = {
       ...selectedTransaction,
-      title,
-      amount,
-      category,
-      type,
-      transactionDate,
+      ...transaction,
     }
 
     const editionPromise = editTransaction(updatedTransaction)
@@ -110,59 +97,67 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
       >
         <img src={closeImg} alt="Fechar modal" />
       </button>
-      <Container onSubmit={handleEditTransaction}>
+      <Container onSubmit={handleSubmit(handleEditTransaction)}>
         <h2>Editar transação</h2>
 
         <GenericInput
           title="Título"
           placeholder="Ex: Video game"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
+          {...register('title')}
+          required
+          autoFocus
         />
         <GenericInput
           title="Data"
           type="date"
           max={currentDate}
-          value={transactionDate || transactionCreatedAt}
-          onChange={(event) => setTransactionDate(event.target.value)}
+          {...register('transactionDate')}
+          required
         />
         <GenericInput
           type="number"
           title="Valor"
           min={0}
           step=".01"
-          value={amount}
-          onChange={(event) => setAmount(event.target.valueAsNumber)}
+          {...register('amount')}
+          required
         />
 
-        <TransactionTypeContainer>
-          <RadioBox
-            type="button"
-            isActive={type === 'deposit'}
-            onClick={() => setType('deposit')}
-            activeColor="green"
-          >
-            <img src={incomeImg} alt="Entrada" />
-            <span>Entrada</span>
-          </RadioBox>
-
-          <RadioBox
-            type="button"
-            isActive={type === 'withdraw'}
-            onClick={() => setType('withdraw')}
-            activeColor="red"
-          >
-            <img src={outcomeImg} alt="Saída" />
-            <span>Saída</span>
-          </RadioBox>
-        </TransactionTypeContainer>
+        <Controller
+          name="type"
+          control={control}
+          render={({ field }) => (
+            <TransactionTypeContainer>
+              <RadioBox
+                type="button"
+                isActive={field?.value === 'deposit'}
+                onClick={() => field.onChange('deposit')}
+                activeColor="green"
+                value="deposit"
+              >
+                <img src={incomeImg} alt="Entrada" />
+                <span>Entrada</span>
+              </RadioBox>
+              <RadioBox
+                type="button"
+                isActive={field?.value === 'withdraw'}
+                onClick={() => field.onChange('withdraw')}
+                activeColor="red"
+              >
+                <img src={outcomeImg} alt="Saída" />
+                <span>Saída</span>
+              </RadioBox>
+            </TransactionTypeContainer>
+          )}
+        />
 
         <GenericInput
           title="Categoria"
           placeholder="Ex: Lazer"
           list="categories"
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
+          maxLength={20}
+          {...register('category')}
+          required
         />
 
         <datalist id="categories">
@@ -177,7 +172,6 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
           backgroundColor="green"
           textColor="#fff"
           isLoading={isSaving}
-          disabled={!hasFilledForm && !isSaving}
         >
           Salvar Alterações
         </Button>

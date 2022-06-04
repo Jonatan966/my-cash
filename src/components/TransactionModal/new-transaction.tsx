@@ -1,6 +1,7 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
+import { Controller, useForm } from 'react-hook-form'
 
 import closeImg from 'assets/close.svg'
 import incomeImg from 'assets/income.svg'
@@ -12,49 +13,39 @@ import { Button } from 'components/Button'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
 import { getFormattedDate } from 'utils/get-formatted-date'
+import { TransactionDTO } from './types'
 
 interface NewTransactionModalProps {
   isOpen: boolean
 }
 
 export function NewTransactionModal({ isOpen }: NewTransactionModalProps) {
-  const { createTransaction, categories, handleToggleNewTransactionModal } =
-    useTransactions()
-
   const currentDate = getFormattedDate(new Date())
 
-  const [title, setTitle] = useState('')
-  const [amount, setAmount] = useState(0)
-  const [category, setCategory] = useState('')
+  const { createTransaction, categories, handleToggleNewTransactionModal } =
+    useTransactions()
+  const { handleSubmit, register, reset, control } = useForm<TransactionDTO>({
+    defaultValues: {
+      amount: 0,
+      transactionDate: currentDate,
+      type: 'deposit',
+    },
+  })
+
   const [isSaving, setIsSaving] = useState(false)
-  const [transactionDate, setTransactionDate] = useState(currentDate)
-
-  const [type, setType] = useState<'deposit' | 'withdraw'>('deposit')
-
-  const hasFilledForm = title && amount && category
 
   useEffect(() => {
     if (!isOpen) return
 
-    setTitle('')
-    setAmount(0)
-    setCategory('')
-    setType('deposit')
+    reset()
 
     setIsSaving(false)
-  }, [isOpen])
+  }, [isOpen, reset])
 
-  async function handleCreateNewTransaction(event: FormEvent) {
-    event.preventDefault()
+  async function handleCreateNewTransaction(newTransaction: TransactionDTO) {
     setIsSaving(true)
 
-    const creationPromise = createTransaction({
-      title,
-      amount: isNaN(amount) ? 0 : amount,
-      category,
-      type,
-      transactionDate,
-    })
+    const creationPromise = createTransaction(newTransaction)
 
     try {
       await toast.promise(creationPromise, {
@@ -89,61 +80,67 @@ export function NewTransactionModal({ isOpen }: NewTransactionModalProps) {
       >
         <img src={closeImg} alt="Fechar modal" />
       </button>
-      <Container onSubmit={handleCreateNewTransaction}>
+      <Container onSubmit={handleSubmit(handleCreateNewTransaction)}>
         <h2>Cadastrar Transação</h2>
 
         <GenericInput
           title="Título"
           placeholder="Ex: Video game"
-          value={title}
-          onChange={(event) => setTitle(event.target.value)}
+          {...register('title')}
+          required
           autoFocus
         />
         <GenericInput
           title="Data"
           type="date"
           max={currentDate}
-          value={transactionDate}
-          onChange={(event) => setTransactionDate(event.target.value)}
+          {...register('transactionDate')}
+          required
         />
         <GenericInput
           type="number"
           title="Valor"
-          min={0}
+          min={1}
           step=".01"
-          value={amount}
-          onChange={(event) => setAmount(event.target.valueAsNumber)}
+          {...register('amount')}
+          required
         />
 
-        <TransactionTypeContainer>
-          <RadioBox
-            type="button"
-            isActive={type === 'deposit'}
-            onClick={() => setType('deposit')}
-            activeColor="green"
-          >
-            <img src={incomeImg} alt="Entrada" />
-            <span>Entrada</span>
-          </RadioBox>
-
-          <RadioBox
-            type="button"
-            isActive={type === 'withdraw'}
-            onClick={() => setType('withdraw')}
-            activeColor="red"
-          >
-            <img src={outcomeImg} alt="Saída" />
-            <span>Saída</span>
-          </RadioBox>
-        </TransactionTypeContainer>
+        <Controller
+          name="type"
+          control={control}
+          render={({ field }) => (
+            <TransactionTypeContainer>
+              <RadioBox
+                type="button"
+                isActive={field?.value === 'deposit'}
+                onClick={() => field.onChange('deposit')}
+                activeColor="green"
+                value="deposit"
+              >
+                <img src={incomeImg} alt="Entrada" />
+                <span>Entrada</span>
+              </RadioBox>
+              <RadioBox
+                type="button"
+                isActive={field?.value === 'withdraw'}
+                onClick={() => field.onChange('withdraw')}
+                activeColor="red"
+              >
+                <img src={outcomeImg} alt="Saída" />
+                <span>Saída</span>
+              </RadioBox>
+            </TransactionTypeContainer>
+          )}
+        />
 
         <GenericInput
           title="Categoria"
           placeholder="Ex: Lazer"
           list="categories"
           maxLength={20}
-          value={category}
-          onChange={(event) => setCategory(event.target.value)}
+          {...register('category')}
+          required
         />
 
         <datalist id="categories">
@@ -158,7 +155,6 @@ export function NewTransactionModal({ isOpen }: NewTransactionModalProps) {
           backgroundColor="green"
           textColor="#fff"
           isLoading={isSaving}
-          disabled={!hasFilledForm && !isSaving}
         >
           Cadastrar
         </Button>
