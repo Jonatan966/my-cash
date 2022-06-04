@@ -1,11 +1,20 @@
-import { InputHTMLAttributes } from "react";
-import { Input, Container } from "./styles";
+import {
+  forwardRef,
+  ForwardRefRenderFunction,
+  InputHTMLAttributes,
+} from 'react'
+import { Input, Container } from './styles'
 
-export function GenericInput(props: InputHTMLAttributes<HTMLInputElement>) {
+const GenericInputComponent: ForwardRefRenderFunction<
+  HTMLInputElement,
+  InputHTMLAttributes<HTMLInputElement>
+> = (props, ref) => {
   return (
     <Container>
       <span>{props.title}</span>
-      <Input {...props} />
+      <Input {...props} ref={ref} />
     </Container>
   )
 }
+
+export const GenericInput = forwardRef(GenericInputComponent)
