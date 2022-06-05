@@ -33,7 +33,7 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
   const { handleSubmit, register, reset, control, setValue } =
     useForm<TransactionDTO>({
       defaultValues: {
-        amount: 0.01,
+        amount: 1,
         transactionDate: currentDate,
         type: 'deposit',
       },
@@ -165,11 +165,12 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
               mask="R$ num"
               lazy={false}
               title="Valor"
+              inputMode="numeric"
+              overwrite="shift"
+              value={String(field.value)}
               onAccept={(_, input) => {
                 field.onChange(Number(input.unmaskedValue))
               }}
-              overwrite="shift"
-              value={String(field.value)}
               blocks={{
                 num: {
                   mask: Number,
