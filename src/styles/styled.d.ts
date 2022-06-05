@@ -10,6 +10,9 @@ declare module 'styled-components' {
       primary: string
       green: string
 
+      edit: string
+      remove: string
+
       primaryLight: string
 
       textTitle: string
@@ -20,12 +23,6 @@ declare module 'styled-components' {
 
       inputBorder: string
       inputBg: string
-
-      trashBg: string
-      trashIcon: string
-
-      editBg: string
-      editIcon: string
     }
 
     isScrollbarVisible: boolean

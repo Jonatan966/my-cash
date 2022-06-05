@@ -8,6 +8,9 @@ export default {
     primary: '#31263E',
     green: '#1D755D',
 
+    edit: '#e5ab2e',
+    remove: '#e52e40',
+
     primaryLight: '#44355B',
 
     textTitle: '#A5B7CC',
@@ -18,13 +21,5 @@ export default {
 
     inputBg: '#242728',
     inputBorder: '#3b4043',
-
-    trashIcon:
-      'invert(67%) sepia(3%) saturate(4859%) hue-rotate(305deg) brightness(110%) contrast(86%)',
-    trashBg: '#e52e40',
-
-    editIcon:
-      'invert(88%) sepia(48%) saturate(298%) hue-rotate(345deg) brightness(97%) contrast(97%)',
-    editBg: '#e5ab2e',
   },
 } as DefaultTheme
