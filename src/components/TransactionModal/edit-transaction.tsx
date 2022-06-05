@@ -7,7 +7,7 @@ import incomeImg from 'assets/income.svg'
 import outcomeImg from 'assets/outcome.svg'
 
 import { useTransactions } from 'hooks/useTransactions'
-import { GenericInput } from 'components/GenericInput'
+import { GenericInput, MaskInput } from 'components/Input'
 import { Button } from 'components/Button'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
@@ -114,13 +114,32 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
           {...register('transactionDate')}
           required
         />
-        <GenericInput
-          type="number"
-          title="Valor"
-          min={0}
-          step=".01"
-          {...register('amount')}
-          required
+        <Controller
+          name="amount"
+          control={control}
+          render={({ field }) => (
+            <MaskInput
+              mask="R$ num"
+              title="Valor"
+              onAccept={(_, input) => {
+                field.onChange(Number(input.unmaskedValue))
+              }}
+              overwrite="shift"
+              value={String(field.value)}
+              blocks={{
+                num: {
+                  mask: Number,
+                  scale: 2,
+                  thousandsSeparator: '.',
+                  min: 0.01,
+                  max: 999999999.99,
+                  padFractionalZeros: true,
+                  radix: ',',
+                  mapToRadix: ['.'],
+                },
+              }}
+            />
+          )}
         />
 
         <Controller
