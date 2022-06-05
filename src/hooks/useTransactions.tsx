@@ -63,7 +63,8 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   >()
 
   const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false)
-  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
+  const [isRemoveTransactionDialogOpen, setIsRemoveTransactionDialogOpen] =
+    useState(false)
 
   useEffect(() => {
     if (user) {
@@ -208,7 +209,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   function handleToggleRemoveTransactionDialog(transaction?: ITransaction) {
     setScrollbarVisibility(!transaction)
-    setIsRemoveModalOpen(!!transaction)
+    setIsRemoveTransactionDialogOpen(!!transaction)
 
     if (transaction) {
       setSelectedTransaction(transaction)
@@ -247,7 +248,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     >
       {children}
       <TransactionModal isOpen={isTransactionModalOpen} />
-      <RemoveTransactionDialog isOpen={isRemoveModalOpen} />
+      <RemoveTransactionDialog isOpen={isRemoveTransactionDialogOpen} />
     </TransactionsContext.Provider>
   )
 }
