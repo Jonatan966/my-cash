@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 import { Controller, useForm } from 'react-hook-form'
-
-import closeImg from 'assets/close.svg'
-import incomeImg from 'assets/income.svg'
-import outcomeImg from 'assets/outcome.svg'
+import { FiArrowDownCircle, FiArrowUpCircle, FiX } from 'react-icons/fi'
 
 import { useTransactions } from 'hooks/useTransactions'
 import { GenericInput, MaskInput } from 'components/Input'
@@ -136,8 +133,10 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
         onClick={() => handleToggleNewTransactionModal(false)}
         className="react-modal-close"
         disabled={isSaving}
+        title="Fechar Modal"
+        aria-label="Fechar Modal"
       >
-        <img src={closeImg} alt="Fechar modal" />
+        <FiX size={24} />
       </button>
       <Container onSubmit={handleSubmit(currentModalFlow.submitFunction)}>
         <h2>{currentModalFlow.title}</h2>
@@ -199,7 +198,7 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
                 activeColor="green"
                 value="deposit"
               >
-                <img src={incomeImg} alt="Entrada" />
+                <FiArrowUpCircle size={20} />
                 <span>Entrada</span>
               </RadioBox>
               <RadioBox
@@ -208,7 +207,7 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
                 onClick={() => field.onChange('withdraw')}
                 activeColor="red"
               >
-                <img src={outcomeImg} alt="Saída" />
+                <FiArrowDownCircle size={20} />
                 <span>Saída</span>
               </RadioBox>
             </TransactionTypeContainer>

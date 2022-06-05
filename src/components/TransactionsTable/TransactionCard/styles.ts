@@ -1,3 +1,4 @@
+import { darken } from 'polished'
 import styled from 'styled-components'
 
 const Container = styled.tr`
@@ -10,6 +11,11 @@ const Container = styled.tr`
 
     &:first-child {
       color: ${(ctx) => ctx.theme.colors.textTitle};
+    }
+
+    &.deposit,
+    &.withdraw {
+      font-weight: bold;
     }
 
     &.deposit {
@@ -27,11 +33,19 @@ const Container = styled.tr`
       gap: 0.5rem;
 
       .trash {
-        filter: ${(ctx) => ctx.theme.colors.trashIcon};
+        color: ${(ctx) =>
+          darken(
+            0.325 * (ctx.theme.title === 'light' ? 1 : -1),
+            ctx.theme.colors.remove
+          )};
       }
 
       .edit {
-        filter: ${(ctx) => ctx.theme.colors.editIcon};
+        color: ${(ctx) =>
+          darken(
+            0.325 * (ctx.theme.title === 'light' ? 1 : -1),
+            ctx.theme.colors.edit
+          )};
       }
 
       button {

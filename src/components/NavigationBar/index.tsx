@@ -5,8 +5,7 @@ import { Button } from 'components/Button'
 
 import { Container } from './styles'
 
-import { ReactComponent as ListImg } from 'assets/list.svg'
-import { ReactComponent as PieChartImg } from 'assets/pie-chart.svg'
+import { FiList, FiPieChart } from 'react-icons/fi'
 
 interface NavigationBarProps {
   selectedRoute: 'listing' | 'summary'
@@ -27,7 +26,7 @@ export function NavigationBar({ selectedRoute }: NavigationBarProps) {
           className={setSelectedClass('listing')}
           onClick={() => push('/')}
         >
-          <ListImg />
+          <FiList size={24} />
           Listagem
         </Button>
 
@@ -45,7 +44,7 @@ export function NavigationBar({ selectedRoute }: NavigationBarProps) {
           className={setSelectedClass('summary')}
           onClick={() => push('/summary')}
         >
-          <PieChartImg />
+          <FiPieChart size={24} />
           Resumo
         </Button>
       </nav>
