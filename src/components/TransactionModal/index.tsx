@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
+import { Controller, useForm } from 'react-hook-form'
 
 import closeImg from 'assets/close.svg'
 import incomeImg from 'assets/income.svg'
@@ -12,32 +13,36 @@ import { Button } from 'components/Button'
 
 import { Container, RadioBox, TransactionTypeContainer } from './styles'
 import { getFormattedDate } from 'utils/get-formatted-date'
-import { useForm, Controller } from 'react-hook-form'
 import { TransactionDTO } from './types'
 
-interface EditTransactionModalProps {
+interface TransactionModalProps {
   isOpen: boolean
 }
 
-export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
-  const {
-    categories,
-    selectedTransaction,
-    editTransaction,
-    handleToggleEditTransactionModal,
-  } = useTransactions()
+export function TransactionModal({ isOpen }: TransactionModalProps) {
+  const currentDate = getFormattedDate(new Date())
 
-  const { handleSubmit, register, control, setValue } =
-    useForm<TransactionDTO>()
+  const {
+    createTransaction,
+    editTransaction,
+    categories,
+    handleToggleNewTransactionModal,
+    handleToggleEditTransactionModal,
+    selectedTransaction,
+  } = useTransactions()
+  const { handleSubmit, register, reset, control, setValue } =
+    useForm<TransactionDTO>({
+      defaultValues: {
+        amount: 0.01,
+        transactionDate: currentDate,
+        type: 'deposit',
+      },
+    })
 
   const [isSaving, setIsSaving] = useState(false)
 
-  const currentDate = getFormattedDate(new Date())
-
   useEffect(() => {
     if (!isOpen) return
-
-    setIsSaving(false)
 
     if (selectedTransaction) {
       setValue('title', selectedTransaction.title)
@@ -49,8 +54,30 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
         selectedTransaction.transactionDate ||
           getFormattedDate(new Date(selectedTransaction.createdAt || 0))
       )
+    } else {
+      reset()
     }
-  }, [isOpen, selectedTransaction, setValue])
+
+    setIsSaving(false)
+  }, [isOpen, reset, setValue, selectedTransaction])
+
+  async function handleCreateNewTransaction(newTransaction: TransactionDTO) {
+    setIsSaving(true)
+
+    const creationPromise = createTransaction(newTransaction)
+
+    try {
+      await toast.promise(creationPromise, {
+        pending: 'Adicionando transação. . .',
+        error: 'Não foi possível adicionar essa transação',
+        success: 'Transação adicionada com sucesso!',
+      })
+
+      handleToggleNewTransactionModal(false)
+    } catch {
+      setIsSaving(false)
+    }
+  }
 
   async function handleEditTransaction(transaction: TransactionDTO) {
     if (!selectedTransaction) return
@@ -77,10 +104,25 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
     }
   }
 
+  const modalFlows = {
+    create: {
+      title: 'Cadastrar Transação',
+      submitFunction: handleCreateNewTransaction,
+      submitText: 'Cadastrar',
+    },
+    edit: {
+      title: 'Editar transação',
+      submitFunction: handleEditTransaction,
+      submitText: 'Salvar Alterações',
+    },
+  }
+
+  const currentModalFlow = modalFlows[selectedTransaction ? 'edit' : 'create']
+
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={() => handleToggleEditTransactionModal()}
+      onRequestClose={() => handleToggleNewTransactionModal(false)}
       overlayClassName="react-modal-overlay"
       shouldCloseOnEsc={!isSaving}
       shouldCloseOnOverlayClick={!isSaving}
@@ -91,14 +133,14 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
     >
       <button
         type="button"
-        onClick={() => handleToggleEditTransactionModal()}
+        onClick={() => handleToggleNewTransactionModal(false)}
         className="react-modal-close"
         disabled={isSaving}
       >
         <img src={closeImg} alt="Fechar modal" />
       </button>
-      <Container onSubmit={handleSubmit(handleEditTransaction)}>
-        <h2>Editar transação</h2>
+      <Container onSubmit={handleSubmit(currentModalFlow.submitFunction)}>
+        <h2>{currentModalFlow.title}</h2>
 
         <GenericInput
           title="Título"
@@ -114,12 +156,14 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
           {...register('transactionDate')}
           required
         />
+
         <Controller
           name="amount"
           control={control}
           render={({ field }) => (
             <MaskInput
               mask="R$ num"
+              lazy={false}
               title="Valor"
               onAccept={(_, input) => {
                 field.onChange(Number(input.unmaskedValue))
@@ -192,7 +236,7 @@ export function EditTransactionModal({ isOpen }: EditTransactionModalProps) {
           textColor="#fff"
           isLoading={isSaving}
         >
-          Salvar Alterações
+          {currentModalFlow.submitText}
         </Button>
       </Container>
     </Modal>
