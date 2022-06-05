@@ -14,10 +14,6 @@ import {
   updateDoc,
 } from '@firebase/firestore'
 
-import {
-  NewTransactionModal,
-  EditTransactionModal,
-} from 'components/TransactionModal'
 import { RemoveTransactionDialog } from 'components/RemoveTransactionDialog'
 
 import { useThemeSwitcher } from './useThemeSwitcher'
@@ -26,6 +22,7 @@ import { ITransaction } from 'interfaces/Transactions'
 import { firestoreConfig } from 'services/firebase'
 import { useAuth } from 'contexts/authContext'
 import { ICategory } from 'interfaces/Category'
+import { TransactionModal } from 'components/TransactionModal'
 
 type TransactionInput = Omit<ITransaction, 'id' | 'createdAt'>
 
@@ -65,11 +62,9 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     ITransaction | undefined
   >()
 
-  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
+  const [isTransactionModalOpen, setIsTransactionModalOpen] = useState(false)
+  const [isRemoveTransactionDialogOpen, setIsRemoveTransactionDialogOpen] =
     useState(false)
-  const [isEditTransactionModalOpen, setIsEditTransactionModalOpen] =
-    useState(false)
-  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -196,18 +191,25 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
 
   function handleToggleNewTransactionModal(isOpen: boolean) {
     setScrollbarVisibility(!isOpen)
-    setIsNewTransactionModalOpen(isOpen)
+    setIsTransactionModalOpen(isOpen)
+
+    if (isOpen) {
+      setSelectedTransaction(undefined)
+    }
   }
 
   function handleToggleEditTransactionModal(transaction?: ITransaction) {
     setScrollbarVisibility(!transaction)
-    setIsEditTransactionModalOpen(!!transaction)
-    setSelectedTransaction(transaction)
+    setIsTransactionModalOpen(!!transaction)
+
+    if (transaction) {
+      setSelectedTransaction(transaction)
+    }
   }
 
   function handleToggleRemoveTransactionDialog(transaction?: ITransaction) {
     setScrollbarVisibility(!transaction)
-    setIsRemoveModalOpen(!!transaction)
+    setIsRemoveTransactionDialogOpen(!!transaction)
 
     if (transaction) {
       setSelectedTransaction(transaction)
@@ -245,9 +247,8 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
       }}
     >
       {children}
-      <NewTransactionModal isOpen={isNewTransactionModalOpen} />
-      <EditTransactionModal isOpen={isEditTransactionModalOpen} />
-      <RemoveTransactionDialog isOpen={isRemoveModalOpen} />
+      <TransactionModal isOpen={isTransactionModalOpen} />
+      <RemoveTransactionDialog isOpen={isRemoveTransactionDialogOpen} />
     </TransactionsContext.Provider>
   )
 }
