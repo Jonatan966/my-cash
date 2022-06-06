@@ -1,13 +1,12 @@
+import { FiEdit, FiTrash } from 'react-icons/fi'
+import { useMemo } from 'react'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 
 import { Button } from 'components/Button'
 import { ITransaction } from 'interfaces/Transactions'
 
-import trashImg from 'assets/trash.svg'
-import editImg from 'assets/edit.svg'
 import Container from './styles'
-import { useMemo } from 'react'
 
 interface TransactionCardProps {
   transaction: ITransaction
@@ -46,18 +45,18 @@ export function TransactionCard({
           title="Editar"
           onClick={() => onEdit(transaction)}
           fontSize="0"
-          backgroundColor="editBg"
+          backgroundColor="edit"
         >
-          <img src={editImg} alt="Editar" className="edit" />
+          <FiEdit size={16} className="edit" />
         </Button>
 
         <Button
           title="Remover"
           onClick={() => onRemove(transaction)}
           fontSize="0"
-          backgroundColor="trashBg"
+          backgroundColor="remove"
         >
-          <img src={trashImg} alt="Remover" className="trash" />
+          <FiTrash size={16} className="trash" />
         </Button>
       </td>
     </Container>

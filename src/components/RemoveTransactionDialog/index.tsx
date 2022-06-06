@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify'
+import { FiX } from 'react-icons/fi'
 import { FormEvent, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 
@@ -5,9 +7,6 @@ import { useTransactions } from 'hooks/useTransactions'
 import { Button } from 'components/Button'
 
 import { Container } from './styles'
-
-import closeImg from 'assets/close.svg'
-import { toast } from 'react-toastify'
 
 interface RemoveTransactionDialogProps {
   isOpen: boolean
@@ -66,7 +65,7 @@ export function RemoveTransactionDialog({
         className="react-modal-close"
         disabled={isRemoving}
       >
-        <img src={closeImg} alt="Fechar modal" />
+        <FiX size={24} />
       </button>
 
       <Container onSubmit={handleRemoveTransaction}>

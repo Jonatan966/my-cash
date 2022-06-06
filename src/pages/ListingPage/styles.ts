@@ -1,13 +1,22 @@
 import styled from 'styled-components'
+import { Container as TransactionsTableContainer } from 'components/TransactionsTable/styles'
 
 export const Container = styled.main`
   max-width: 1120px;
   margin: 0 auto;
   padding: 2.5rem 1rem;
+
+  @media (max-width: 820px) {
+    padding: 2.5rem 0;
+
+    ${TransactionsTableContainer} {
+      padding: 1rem;
+    }
+  }
 `
 
 export const HeaderContainer = styled.header`
-  background: ${ctx => ctx.theme.colors.primary};
+  background: ${(ctx) => ctx.theme.colors.primary};
 `
 
 export const HeaderContent = styled.div`
@@ -38,11 +47,5 @@ export const HeaderContent = styled.div`
     > img {
       zoom: 0.8;
     }
-
-    display: grid;
-    grid-template-areas:
-    "btnSignOut btnSignOut"
-    "logo btnSwitcher";
-    grid-template-columns: 1fr auto;
   }
 `

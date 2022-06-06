@@ -8,11 +8,10 @@ import 'dayjs/locale/pt-br'
 import { NavigationBar } from 'components/NavigationBar'
 import { useTransactions } from 'hooks/useTransactions'
 
-import { ReactComponent as ArrowImg } from 'assets/arrow-left.svg'
-
 import { chartFormatter } from 'services/chart'
 
 import { Header, MainContainer, MonthSwitcher, PieLabel } from './styles'
+import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 
 interface Summary {
   category: string
@@ -100,16 +99,12 @@ export function SummaryPage() {
       <MainContainer>
         <MonthSwitcher>
           <button onClick={() => changeTargetDate('previous')}>
-            <ArrowImg />
+            <FiArrowLeft size={18} />
           </button>
           <h2>{currentPeriod}</h2>
 
           <button onClick={() => changeTargetDate('next')}>
-            <ArrowImg
-              style={{
-                transform: 'rotate(180deg)',
-              }}
-            />
+            <FiArrowRight size={18} />
           </button>
         </MonthSwitcher>
         {summary.length === 0 ? (

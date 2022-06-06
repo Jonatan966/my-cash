@@ -1,16 +1,19 @@
+import {
+  FiArrowDownCircle,
+  FiArrowUpCircle,
+  FiDollarSign,
+} from 'react-icons/fi'
+import { useTheme } from 'styled-components'
 import { SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
 import { useTransactions } from 'hooks/useTransactions'
 
-import incomeImg from 'assets/income.svg'
-import outcomeImg from 'assets/outcome.svg'
-import totalImg from 'assets/total.svg'
-
 import { Container } from './styles'
 
 export function Summary() {
   const { transactions } = useTransactions()
+  const { colors } = useTheme()
 
   const summary = transactions.reduce(
     (acc, transaction) => {
@@ -40,13 +43,13 @@ export function Summary() {
         820: {
           slidesPerView: 3,
           centeredSlides: false,
-        }
+        },
       }}
     >
       <SwiperSlide>
         <header>
           <p>Entradas</p>
-          <img src={incomeImg} alt="Entradas" />
+          <FiArrowUpCircle size={32} color={colors.green} />
         </header>
         <strong>
           {new Intl.NumberFormat('pt-BR', {
@@ -59,7 +62,7 @@ export function Summary() {
       <SwiperSlide>
         <header>
           <p>Saídas</p>
-          <img src={outcomeImg} alt="Saídas" />
+          <FiArrowDownCircle size={32} color={colors.red} />
         </header>
         <strong>
           -{' '}
@@ -73,7 +76,7 @@ export function Summary() {
       <SwiperSlide className="highlight-background">
         <header>
           <p>Total</p>
-          <img src={totalImg} alt="Total" />
+          <FiDollarSign size={32} />
         </header>
         <strong>
           {new Intl.NumberFormat('pt-BR', {
