@@ -38,9 +38,9 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background: ${ctx => ctx.theme.colors.background};
+    background: ${(ctx) => ctx.theme.colors.background};
     --webkit-font-smoothing: antialiased;
-    overflow-y: ${ctx => ctx.theme.isScrollbarVisible ? 'auto' : 'hidden'};
+    overflow-y: ${(ctx) => (ctx.theme.isScrollbarVisible ? 'auto' : 'hidden')};
 
     overflow-x: hidden;
   }
@@ -77,7 +77,7 @@ export const GlobalStyle = createGlobalStyle`
   .react-modal-content {
     width: 100%;
     max-width: 576px;
-    background: ${ctx => ctx.theme.colors.background};
+    background: ${(ctx) => ctx.theme.colors.background};
     padding: 3rem;
     position: relative;
     border-radius: 0.25rem;
@@ -113,6 +113,11 @@ export const GlobalStyle = createGlobalStyle`
     }
   }
 
+  hr {
+    border-width: 0;
+    background: ${(ctx) => ctx.theme.colors.inputBorder};
+    height: 1px;
+  }
   
   input::-webkit-calendar-picker-indicator {
     opacity: 100;
