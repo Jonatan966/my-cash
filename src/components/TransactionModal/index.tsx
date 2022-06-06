@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 import { Controller, useForm } from 'react-hook-form'
 import { FiArrowDownCircle, FiArrowUpCircle, FiX } from 'react-icons/fi'
+import classNames from 'classnames'
 
 import { useTransactions } from 'hooks/useTransactions'
 import { GenericInput, MaskInput } from 'components/Input'
@@ -123,9 +124,10 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
       overlayClassName="react-modal-overlay"
       shouldCloseOnEsc={!isSaving}
       shouldCloseOnOverlayClick={!isSaving}
-      className={`react-modal-content ${
-        !isOpen ? 'react-modal-closing' : 'react-modal-opening'
-      }`}
+      className={classNames('react-modal-content', {
+        'react-modal-opening': isOpen,
+        'react-modal-closing': !isOpen,
+      })}
       closeTimeoutMS={500}
     >
       <button
