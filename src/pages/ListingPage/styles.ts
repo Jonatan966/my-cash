@@ -47,11 +47,5 @@ export const HeaderContent = styled.div`
     > img {
       zoom: 0.8;
     }
-
-    display: grid;
-    grid-template-areas:
-      'btnSignOut btnSignOut'
-      'logo btnSwitcher';
-    grid-template-columns: 1fr auto;
   }
 `
