@@ -99,12 +99,12 @@ export function SummaryPage() {
       <MainContainer>
         <MonthSwitcher>
           <button onClick={() => changeTargetDate('previous')}>
-            <FiArrowLeft size={28} />
+            <FiArrowLeft size={18} />
           </button>
           <h2>{currentPeriod}</h2>
 
           <button onClick={() => changeTargetDate('next')}>
-            <FiArrowRight size={28} />
+            <FiArrowRight size={18} />
           </button>
         </MonthSwitcher>
         {summary.length === 0 ? (
