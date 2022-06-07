@@ -2,7 +2,7 @@ import { ReactComponent as LogoImg } from 'assets/logo.svg'
 import { ReactComponent as GoogleImg } from 'assets/google-logo.svg'
 import { ReactComponent as FacebookImg } from 'assets/facebook-logo.svg'
 
-import { useAuth } from 'contexts/authContext'
+import { useAuth } from 'contexts/auth'
 
 import { ActionsContainer, Header } from './styles'
 import { Button } from 'components/Button'

@@ -1,5 +1,5 @@
-import { useAuth } from "contexts/authContext";
-import { UserProfileContainer } from "./styles";
+import { useAuth } from 'contexts/auth'
+import { UserProfileContainer } from './styles'
 
 export function UserProfile() {
   const { user } = useAuth()

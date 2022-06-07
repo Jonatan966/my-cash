@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { ThemeContext, ThemeProvider } from 'styled-components'
 
-import { usePersistedState } from './usePersistedState'
+import { usePersistedState } from '../hooks/usePersistedState'
 
 import light from 'styles/themes/light'
 import dark from 'styles/themes/dark'

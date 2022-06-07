@@ -1,6 +1,6 @@
 import { useHistory } from 'react-router-dom'
 
-import { useTransactions } from 'hooks/useTransactions'
+import { useTransactions } from 'contexts/transactions'
 import { Button } from 'components/Button'
 
 import { Container } from './styles'

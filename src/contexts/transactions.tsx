@@ -17,12 +17,12 @@ import {
 import { RemoveTransactionDialog } from 'domain/RemoveTransactionDialog'
 import { TransactionModal } from 'domain/TransactionModal'
 
-import { useThemeSwitcher } from './useThemeSwitcher'
+import { useThemeSwitcher } from './themeSwitcher'
 
 import { ITransaction } from 'interfaces/Transactions'
 import { ICategory } from 'interfaces/Category'
 import { firestoreConfig } from 'services/firebase'
-import { useAuth } from 'contexts/authContext'
+import { useAuth } from 'contexts/auth'
 
 type TransactionInput = Omit<ITransaction, 'id' | 'createdAt'>
 

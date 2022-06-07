@@ -7,7 +7,7 @@ import ChartDatalabelsPlugin from 'chartjs-plugin-datalabels'
 import 'dayjs/locale/pt-br'
 
 import { NavigationBar } from 'domain/NavigationBar'
-import { useTransactions } from 'hooks/useTransactions'
+import { useTransactions } from 'contexts/transactions'
 
 import { chartFormatter } from 'services/chart'
 

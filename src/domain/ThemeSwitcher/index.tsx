@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { ThemeContext } from 'styled-components'
 import { FiMoon, FiSun } from 'react-icons/fi'
 
-import { useThemeSwitcher } from 'hooks/useThemeSwitcher'
+import { useThemeSwitcher } from 'contexts/themeSwitcher'
 import { Button } from 'components/Button'
 
 const translatedThemes = {

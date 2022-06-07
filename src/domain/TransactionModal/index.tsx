@@ -9,7 +9,7 @@ import { Button } from 'components/Button'
 import { TransactionType } from './TransactionType'
 import { AmountInput } from './AmountInput'
 import { getFormattedDate } from 'utils/get-formatted-date'
-import { useTransactions } from 'hooks/useTransactions'
+import { useTransactions } from 'contexts/transactions'
 
 import { Container } from './styles'
 import { TransactionDTO } from './types'

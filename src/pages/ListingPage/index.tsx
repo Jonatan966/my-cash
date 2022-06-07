@@ -3,7 +3,7 @@ import { Summary } from 'domain/Summary'
 import { TransactionsTable } from 'domain/TransactionsTable'
 import { UserProfile } from 'domain/UserProfile'
 import { BackdropLoader } from 'components/BackdropLoader'
-import { useAuth } from 'contexts/authContext'
+import { useAuth } from 'contexts/auth'
 
 import { Container, HeaderContainer, HeaderContent } from './styles'
 import { OptionsModal } from 'domain/OptionsModal'

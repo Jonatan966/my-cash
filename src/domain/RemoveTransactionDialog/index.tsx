@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import classNames from 'classnames'
 
-import { useTransactions } from 'hooks/useTransactions'
+import { useTransactions } from 'contexts/transactions'
 import { FlutuantCloseButton } from 'components/FlutuantCloseButton'
 import { Button } from 'components/Button'
 

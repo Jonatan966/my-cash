@@ -5,10 +5,10 @@ import { ListingPage } from 'pages/ListingPage'
 import { SummaryPage } from 'pages/SummaryPage'
 import { LoginPage } from 'pages/LoginPage'
 import { Toast } from 'components/Toast'
-import { AuthProvider } from 'contexts/authContext'
+import { AuthProvider } from 'contexts/auth'
 
-import { ThemeSwitcherProvider } from './hooks/useThemeSwitcher'
-import { TransactionsProvider } from './hooks/useTransactions'
+import { ThemeSwitcherProvider } from './contexts/themeSwitcher'
+import { TransactionsProvider } from './contexts/transactions'
 
 import { GlobalStyle } from './styles/global'
 

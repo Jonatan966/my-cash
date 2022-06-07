@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { Button } from 'components/Button'
 import { ThemeSwitcher } from 'domain/ThemeSwitcher'
 
-import { useAuth } from 'contexts/authContext'
+import { useAuth } from 'contexts/auth'
 
 import styles from './styles.module.css'
 

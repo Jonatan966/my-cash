@@ -1,6 +1,6 @@
 import { BackdropLoader } from 'components/BackdropLoader'
 import dayjs from 'dayjs'
-import { useTransactions } from 'hooks/useTransactions'
+import { useTransactions } from 'contexts/transactions'
 import { useMemo } from 'react'
 
 import { Container } from './styles'

@@ -7,7 +7,7 @@ import { useTheme } from 'styled-components'
 import { SwiperSlide } from 'swiper/react'
 import 'swiper/swiper.min.css'
 
-import { useTransactions } from 'hooks/useTransactions'
+import { useTransactions } from 'contexts/transactions'
 
 import { Container } from './styles'
 
