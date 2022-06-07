@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Container as TransactionsTableContainer } from 'components/TransactionsTable/styles'
+import { Container as TransactionsTableContainer } from 'domain/TransactionsTable/styles'
 
 export const Container = styled.main`
   max-width: 1120px;

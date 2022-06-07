@@ -5,7 +5,7 @@ import { useTheme } from 'styled-components'
 import classNames from 'classnames'
 
 import { Button } from 'components/Button'
-import { ThemeSwitcher } from 'components/ThemeSwitcher'
+import { ThemeSwitcher } from 'domain/ThemeSwitcher'
 
 import { useAuth } from 'contexts/authContext'
 

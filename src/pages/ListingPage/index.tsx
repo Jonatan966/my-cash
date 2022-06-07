@@ -1,12 +1,12 @@
-import { NavigationBar } from 'components/NavigationBar'
-import { Summary } from 'components/Summary'
-import { TransactionsTable } from 'components/TransactionsTable'
-import { UserProfile } from 'components/UserProfile'
+import { NavigationBar } from 'domain/NavigationBar'
+import { Summary } from 'domain/Summary'
+import { TransactionsTable } from 'domain/TransactionsTable'
+import { UserProfile } from 'domain/UserProfile'
 import { BackdropLoader } from 'components/BackdropLoader'
 import { useAuth } from 'contexts/authContext'
 
 import { Container, HeaderContainer, HeaderContent } from './styles'
-import { OptionsModal } from 'components/OptionsModal'
+import { OptionsModal } from 'domain/OptionsModal'
 
 export function ListingPage() {
   const { isLoadingUserInformation } = useAuth()

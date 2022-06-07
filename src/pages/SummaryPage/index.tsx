@@ -2,16 +2,16 @@ import dayjs from 'dayjs'
 import { useMemo, useState } from 'react'
 import { Pie } from 'react-chartjs-2'
 import { ChartOptions } from 'chart.js'
+import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import ChartDatalabelsPlugin from 'chartjs-plugin-datalabels'
 import 'dayjs/locale/pt-br'
 
-import { NavigationBar } from 'components/NavigationBar'
+import { NavigationBar } from 'domain/NavigationBar'
 import { useTransactions } from 'hooks/useTransactions'
 
 import { chartFormatter } from 'services/chart'
 
 import { Header, MainContainer, MonthSwitcher, PieLabel } from './styles'
-import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 
 interface Summary {
   category: string

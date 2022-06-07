@@ -14,15 +14,15 @@ import {
   updateDoc,
 } from '@firebase/firestore'
 
-import { RemoveTransactionDialog } from 'components/RemoveTransactionDialog'
+import { RemoveTransactionDialog } from 'domain/RemoveTransactionDialog'
+import { TransactionModal } from 'domain/TransactionModal'
 
 import { useThemeSwitcher } from './useThemeSwitcher'
 
 import { ITransaction } from 'interfaces/Transactions'
+import { ICategory } from 'interfaces/Category'
 import { firestoreConfig } from 'services/firebase'
 import { useAuth } from 'contexts/authContext'
-import { ICategory } from 'interfaces/Category'
-import { TransactionModal } from 'components/TransactionModal'
 
 type TransactionInput = Omit<ITransaction, 'id' | 'createdAt'>
 

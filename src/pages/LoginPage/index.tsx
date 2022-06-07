@@ -22,31 +22,28 @@ export function LoginPage() {
       </Header>
 
       <ActionsContainer>
-        <div className='actions'>
-          {isAuthenticating 
-            ? <BackdropLoader 
-                title='Autenticando. . .' 
-                color='text' 
-              /> 
-            : (
+        <div className="actions">
+          {isAuthenticating ? (
+            <BackdropLoader title="Autenticando. . ." color="text" />
+          ) : (
             <>
-              <Button  onClick={() => signIn('google')}>
+              <Button onClick={() => signIn('google')}>
                 <GoogleImg />
                 <hr />
                 <span>Entrar com Google</span>
-                </Button>
-
-              <Button  onClick={() => signIn('facebook')}>
-                <FacebookImg />
-                <hr />
-                <span>Entrar com Facebook</span> 
               </Button>
 
-              <span className='separator' data-content='Ou' />
-              
-              <Button 
-                onClick={() => signIn('anonymous')} 
-                className='without-login-btn'
+              <Button onClick={() => signIn('facebook')}>
+                <FacebookImg />
+                <hr />
+                <span>Entrar com Facebook</span>
+              </Button>
+
+              <span className="separator" data-content="Ou" />
+
+              <Button
+                onClick={() => signIn('anonymous')}
+                className="without-login-btn"
               >
                 <span>Entrar sem fazer login</span>
               </Button>

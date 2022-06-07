@@ -88,7 +88,7 @@ export function RemoveTransactionDialog({
           </Button>
           <Button
             type="submit"
-            backgroundColor="trashBg"
+            backgroundColor="red"
             height="4rem"
             textColor="#fff"
             isLoading={isRemoving}
