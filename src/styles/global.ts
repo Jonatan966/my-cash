@@ -108,6 +108,8 @@ export const GlobalStyle = createGlobalStyle`
     background: transparent;
     transition: filter 0.2s;
 
+    color: ${(ctx) => ctx.theme.colors.text};
+
     &:hover {
       filter: brightness(0.8)
     }
