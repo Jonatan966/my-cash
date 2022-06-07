@@ -2,16 +2,18 @@ import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 import { Controller, useForm } from 'react-hook-form'
-import { FiArrowDownCircle, FiArrowUpCircle, FiX } from 'react-icons/fi'
 import classNames from 'classnames'
 
-import { useTransactions } from 'hooks/useTransactions'
-import { GenericInput, MaskInput } from 'components/Input'
+import { GenericInput } from 'components/Input'
 import { Button } from 'components/Button'
-
-import { Container, RadioBox, TransactionTypeContainer } from './styles'
+import { TransactionType } from './TransactionType'
+import { AmountInput } from './AmountInput'
 import { getFormattedDate } from 'utils/get-formatted-date'
+import { useTransactions } from 'hooks/useTransactions'
+
+import { Container } from './styles'
 import { TransactionDTO } from './types'
+import { FlutuantCloseButton } from 'components/FlutuantCloseButton'
 
 interface TransactionModalProps {
   isOpen: boolean
@@ -116,6 +118,10 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
   }
 
   const currentModalFlow = modalFlows[selectedTransaction ? 'edit' : 'create']
+  const modalClassName = classNames('react-modal-content', {
+    'react-modal-opening': isOpen,
+    'react-modal-closing': !isOpen,
+  })
 
   return (
     <Modal
@@ -124,22 +130,16 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
       overlayClassName="react-modal-overlay"
       shouldCloseOnEsc={!isSaving}
       shouldCloseOnOverlayClick={!isSaving}
-      className={classNames('react-modal-content', {
-        'react-modal-opening': isOpen,
-        'react-modal-closing': !isOpen,
-      })}
+      className={modalClassName}
       closeTimeoutMS={500}
     >
-      <button
-        type="button"
-        onClick={() => handleToggleNewTransactionModal(false)}
-        className="react-modal-close"
+      <FlutuantCloseButton
         disabled={isSaving}
+        onClick={() => handleToggleNewTransactionModal(false)}
         title="Fechar Modal"
         aria-label="Fechar Modal"
-      >
-        <FiX size={24} />
-      </button>
+      />
+
       <Container onSubmit={handleSubmit(currentModalFlow.submitFunction)}>
         <h2>{currentModalFlow.title}</h2>
 
@@ -161,59 +161,13 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
         <Controller
           name="amount"
           control={control}
-          render={({ field }) => (
-            <MaskInput
-              mask="R$ num"
-              lazy={false}
-              title="Valor"
-              inputMode="numeric"
-              overwrite="shift"
-              value={String(field.value)}
-              onAccept={(_, input) => {
-                field.onChange(Number(input.unmaskedValue))
-              }}
-              blocks={{
-                num: {
-                  mask: Number,
-                  scale: 2,
-                  thousandsSeparator: '.',
-                  min: 0.01,
-                  max: 999999999.99,
-                  padFractionalZeros: true,
-                  radix: ',',
-                  mapToRadix: ['.'],
-                },
-              }}
-            />
-          )}
+          render={({ field }) => <AmountInput {...field} />}
         />
 
         <Controller
           name="type"
           control={control}
-          render={({ field }) => (
-            <TransactionTypeContainer>
-              <RadioBox
-                type="button"
-                isActive={field?.value === 'deposit'}
-                onClick={() => field.onChange('deposit')}
-                activeColor="green"
-                value="deposit"
-              >
-                <FiArrowUpCircle size={20} />
-                <span>Entrada</span>
-              </RadioBox>
-              <RadioBox
-                type="button"
-                isActive={field?.value === 'withdraw'}
-                onClick={() => field.onChange('withdraw')}
-                activeColor="red"
-              >
-                <FiArrowDownCircle size={20} />
-                <span>Saída</span>
-              </RadioBox>
-            </TransactionTypeContainer>
-          )}
+          render={({ field }) => <TransactionType {...field} />}
         />
 
         <GenericInput
