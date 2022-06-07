@@ -1,22 +1,28 @@
-import { useContext, useEffect, useState, createContext, ReactNode } from 'react'
+import {
+  useContext,
+  useEffect,
+  useState,
+  createContext,
+  ReactNode,
+} from 'react'
 import { useHistory } from 'react-router'
 import { toast } from 'react-toastify'
 
-import { User } from 'interfaces/User'
+import { User } from 'interfaces/user'
 import { authApp, authConfig } from 'services/firebase'
 
 export type TargetProviders = 'google' | 'facebook' | 'anonymous'
 
 interface AuthContextProps {
-  signIn: (targetProvider: TargetProviders) => Promise<void>;
-  signOut: () => Promise<void>;
-  user: User | undefined;
-  isLoadingUserInformation: boolean;
-  isAuthenticating: boolean;
+  signIn: (targetProvider: TargetProviders) => Promise<void>
+  signOut: () => Promise<void>
+  user: User | undefined
+  isLoadingUserInformation: boolean
+  isAuthenticating: boolean
 }
 
 interface AuthProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 const AuthContext = createContext({} as AuthContextProps)
@@ -30,7 +36,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   useEffect(() => {
     setIsLoadingUserInformation(true)
 
-    const unsubscribe = authApp.onAuthStateChanged(authConfig, user => {
+    const unsubscribe = authApp.onAuthStateChanged(authConfig, (user) => {
       if (user) {
         saveUserInformation(user)
         setIsLoadingUserInformation(false)
@@ -57,7 +63,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
       if (targetProvider === 'anonymous') {
         signInResult = await authApp.signInAnonymously(authConfig)
       } else {
-        signInResult = await authApp.signInWithPopup(authConfig, providers[targetProvider])
+        signInResult = await authApp.signInWithPopup(
+          authConfig,
+          providers[targetProvider]
+        )
       }
 
       if (signInResult.user) {
@@ -66,7 +75,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         router.replace('/')
       }
     } catch {
-      toast.error("Ocorreu um erro ao tentar fazer login. Verifique sua conexão e tente novamente")
+      toast.error(
+        'Ocorreu um erro ao tentar fazer login. Verifique sua conexão e tente novamente'
+      )
     } finally {
       setIsAuthenticating(false)
     }
@@ -88,18 +99,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setUser({
       id: uid,
       name: displayName || 'Anonymous',
-      avatar: photoURL || ''
+      avatar: photoURL || '',
     })
   }
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      signIn,
-      signOut,
-      isLoadingUserInformation,
-      isAuthenticating,
-    }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        signIn,
+        signOut,
+        isLoadingUserInformation,
+        isAuthenticating,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )
