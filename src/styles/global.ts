@@ -34,7 +34,6 @@ export const GlobalStyle = createGlobalStyle`
     @media (max-width: 720px) {
       font-size: 87.5%;
     }
-
   }
 
   body {
@@ -83,7 +82,6 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 0.25rem;
     margin: 0 1rem;
 
-
     @media (max-width: 820px) {
       margin: 0;
       border-radius: 1rem 1rem 0 0;
@@ -93,26 +91,10 @@ export const GlobalStyle = createGlobalStyle`
 
   .react-modal-closing {
     animation: ${modalOutAnimation} 0.5s 1 ease-in-out;
-    
   }
 
   .react-modal-opening {
     animation: ${modalEnterAnimation} 0.5s 1 ease-in-out;
-  }
-
-  .react-modal-close {
-    position: absolute;
-    right: 1.5rem;
-    top: 1.5rem;
-    border: 0;
-    background: transparent;
-    transition: filter 0.2s;
-
-    color: ${(ctx) => ctx.theme.colors.text};
-
-    &:hover {
-      filter: brightness(0.8)
-    }
   }
 
   hr {
