@@ -6,6 +6,8 @@ import { OptionsModal } from 'domain/options-modal'
 import { BackdropLoader } from 'components/backdrop-loader'
 import { useAuth } from 'contexts/auth'
 
+import { ReactComponent as AppLogo } from '../../assets/logo.svg'
+
 import { Container, HeaderContainer, HeaderContent } from './styles'
 
 export function TransactionsListingPage() {
@@ -20,6 +22,7 @@ export function TransactionsListingPage() {
       <HeaderContainer>
         <HeaderContent>
           <UserProfile />
+          <AppLogo className="app-logo" />
           <OptionsModal />
         </HeaderContent>
       </HeaderContainer>

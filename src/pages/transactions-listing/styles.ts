@@ -39,13 +39,19 @@ export const HeaderContent = styled.div`
     margin: auto;
   }
 
-  > img {
-    grid-area: logo;
+  .app-logo {
+    transform: translateX(-50%);
   }
 
   @media (max-width: 425px) {
     > img {
       zoom: 0.8;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .app-logo {
+      display: none;
     }
   }
 `
