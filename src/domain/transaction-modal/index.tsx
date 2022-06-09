@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
-import Modal from 'react-modal'
 import { toast } from 'react-toastify'
 import { Controller, useForm } from 'react-hook-form'
-import classNames from 'classnames'
 
 import { GenericInput } from 'components/input'
 import { Button } from 'components/button'
@@ -10,6 +8,7 @@ import { FlutuantCloseButton } from 'components/flutuant-close-button'
 import { TransactionType } from './transaction-type'
 import { AmountInput } from './amount-input'
 
+import { AppModal } from 'components/app-modal'
 import { useTransactions } from 'contexts/transactions'
 import { getFormattedDate } from 'utils/get-formatted-date'
 
@@ -110,33 +109,28 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
       title: 'Cadastrar Transação',
       submitFunction: handleCreateNewTransaction,
       submitText: 'Cadastrar',
+      onRequestClose: () => handleToggleNewTransactionModal(false),
     },
     edit: {
       title: 'Editar transação',
       submitFunction: handleEditTransaction,
       submitText: 'Salvar Alterações',
+      onRequestClose: () => handleToggleEditTransactionModal(),
     },
   }
 
   const currentModalFlow = modalFlows[selectedTransaction ? 'edit' : 'create']
-  const modalClassName = classNames('react-modal-content', {
-    'react-modal-opening': isOpen,
-    'react-modal-closing': !isOpen,
-  })
 
   return (
-    <Modal
+    <AppModal
       isOpen={isOpen}
-      onRequestClose={() => handleToggleNewTransactionModal(false)}
-      overlayClassName="react-modal-overlay"
+      onRequestClose={currentModalFlow.onRequestClose}
       shouldCloseOnEsc={!isSaving}
       shouldCloseOnOverlayClick={!isSaving}
-      className={modalClassName}
-      closeTimeoutMS={500}
     >
       <FlutuantCloseButton
         disabled={isSaving}
-        onClick={() => handleToggleNewTransactionModal(false)}
+        onClick={currentModalFlow.onRequestClose}
         title="Fechar Modal"
         aria-label="Fechar Modal"
       />
@@ -200,6 +194,6 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
           {currentModalFlow.submitText}
         </Button>
       </Container>
-    </Modal>
+    </AppModal>
   )
 }

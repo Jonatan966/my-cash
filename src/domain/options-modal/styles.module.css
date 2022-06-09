@@ -4,7 +4,6 @@
   position: relative;
   border-radius: 0.25rem;
   border-radius: 1rem 1rem 0 0;
-  background: white;
 
   margin: 0 1rem;
 
@@ -16,4 +15,8 @@
 .modalContent button:not(:last-child) {
   height: 4.25rem;
   font-weight: bold;
+}
+
+.modalContent button {
+  border-radius: 0;
 }

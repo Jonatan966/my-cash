@@ -1,9 +1,7 @@
 import { toast } from 'react-toastify'
 import { FormEvent, useEffect, useState } from 'react'
-import Modal from 'react-modal'
-import classNames from 'classnames'
 
-import { FlutuantCloseButton } from 'components/flutuant-close-button'
+import { AppModal } from 'components/app-modal'
 import { Button } from 'components/button'
 import { useTransactions } from 'contexts/transactions'
 
@@ -48,28 +46,13 @@ export function RemoveTransactionDialog({
     }
   }
 
-  const modalClassName = classNames('react-modal-content', {
-    'react-modal-opening': isOpen,
-    'react-modal-closing': !isOpen,
-  })
-
   return (
-    <Modal
+    <AppModal
       isOpen={isOpen}
       onRequestClose={() => handleToggleRemoveTransactionDialog()}
       shouldCloseOnEsc={!isRemoving}
       shouldCloseOnOverlayClick={!isRemoving}
-      overlayClassName="react-modal-overlay"
-      className={modalClassName}
-      closeTimeoutMS={500}
     >
-      <FlutuantCloseButton
-        onClick={() => handleToggleRemoveTransactionDialog()}
-        disabled={isRemoving}
-        title="Fechar Diálogo"
-        aria-label="Fechar Diálogo"
-      />
-
       <Container onSubmit={handleRemoveTransaction}>
         <h2>Remover transação</h2>
         <p>
@@ -99,6 +82,6 @@ export function RemoveTransactionDialog({
           </Button>
         </div>
       </Container>
-    </Modal>
+    </AppModal>
   )
 }

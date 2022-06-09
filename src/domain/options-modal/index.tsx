@@ -1,8 +1,5 @@
 import { useState } from 'react'
-import Modal from 'react-modal'
 import { FiLogOut, FiSettings } from 'react-icons/fi'
-import { useTheme } from 'styled-components'
-import classNames from 'classnames'
 
 import { Button } from 'components/button'
 import { ThemeSwitcher } from 'domain/theme-switcher'
@@ -10,9 +7,9 @@ import { ThemeSwitcher } from 'domain/theme-switcher'
 import { useAuth } from 'contexts/auth'
 
 import styles from './styles.module.css'
+import { AppModal } from 'components/app-modal'
 
 export function OptionsModal() {
-  const { colors } = useTheme()
   const { signOut } = useAuth()
 
   const [isOpen, setIsOpen] = useState(false)
@@ -29,21 +26,14 @@ export function OptionsModal() {
       >
         <FiSettings size={28} />
       </Button>
-      <Modal
+      <AppModal
         isOpen={isOpen}
-        overlayClassName="react-modal-overlay"
         onRequestClose={() => setIsOpen(false)}
-        className={classNames(styles.modalContent, {
-          'react-modal-opening': isOpen,
-          'react-modal-closing': !isOpen,
-        })}
+        className={styles.modalContent}
         closeTimeoutMS={250}
         style={{
           overlay: {
             alignItems: 'flex-end',
-          },
-          content: {
-            background: colors.background,
           },
         }}
       >
@@ -65,7 +55,7 @@ export function OptionsModal() {
         >
           Fechar
         </Button>
-      </Modal>
+      </AppModal>
     </>
   )
 }

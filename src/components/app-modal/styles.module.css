@@ -1,0 +1,64 @@
+@keyframes modalOut {
+  from {
+    transform: translateY(0vh);
+  }
+  to {
+    transform: translateY(100vh);
+  }
+}
+
+@keyframes modalEnter {
+  from {
+    transform: translateY(100vh);
+  }
+  to {
+    transform: translateY(0vh);
+  }
+}
+
+.modalOverlay {
+  background: rgba(0, 0, 0, 0.5);
+
+  z-index: 2;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  width: 100%;
+  max-width: 576px;
+  padding: 3rem;
+  position: relative;
+  border-radius: 0.25rem;
+  margin: 0 1rem;
+
+  overflow-y: auto;
+  max-height: calc(100vh - 5rem);
+}
+
+.modalClosing {
+  animation: modalOut 0.5s 1 ease-in-out;
+}
+
+.modalOpening {
+  animation: modalEnter 0.5s 1 ease-in-out;
+}
+
+@media (max-width: 820px) {
+  .modalContent {
+    border-radius: 1rem 1rem 0 0;
+    padding: 1.75rem;
+  }
+
+  .modalOverlay {
+    align-items: flex-end;
+  }
+}
