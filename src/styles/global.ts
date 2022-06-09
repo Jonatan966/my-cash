@@ -82,8 +82,11 @@ export const GlobalStyle = createGlobalStyle`
     border-radius: 0.25rem;
     margin: 0 1rem;
 
+    overflow-y: auto;
+    max-height: calc(100vh - 5rem);
+
     @media (max-width: 820px) {
-      margin: 0;
+      /* margin: 0; */
       border-radius: 1rem 1rem 0 0;
       padding: 1.75rem;
     }
