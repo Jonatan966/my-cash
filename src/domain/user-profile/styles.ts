@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const UserProfileContainer = styled.div`
   display: flex;
@@ -16,5 +16,11 @@ export const UserProfileContainer = styled.div`
     font-weight: normal;
 
     color: #fff;
+  }
+
+  .blank-avatar {
+    background: #fff;
+    border-radius: 50%;
+    border: 0.125rem solid #fff;
   }
 `
