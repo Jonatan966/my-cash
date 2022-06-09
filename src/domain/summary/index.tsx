@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import {
   FiArrowDownCircle,
   FiArrowUpCircle,
@@ -15,24 +16,26 @@ export function Summary() {
   const { transactions } = useTransactions()
   const { colors } = useTheme()
 
-  const summary = transactions.reduce(
-    (acc, transaction) => {
-      if (transaction.type === 'deposit') {
-        acc.depoists += transaction.amount
-        acc.total += transaction.amount
-      } else {
-        acc.withdraws += transaction.amount
-        acc.total -= transaction.amount
-      }
+  const summary = useMemo(() => {
+    return transactions.reduce(
+      (acc, transaction) => {
+        if (transaction.type === 'deposit') {
+          acc.depoists += transaction.amount
+          acc.total += transaction.amount
+        } else {
+          acc.withdraws += transaction.amount
+          acc.total -= transaction.amount
+        }
 
-      return acc
-    },
-    {
-      depoists: 0,
-      withdraws: 0,
-      total: 0,
-    }
-  )
+        return acc
+      },
+      {
+        depoists: 0,
+        withdraws: 0,
+        total: 0,
+      }
+    )
+  }, [transactions])
 
   return (
     <Container
