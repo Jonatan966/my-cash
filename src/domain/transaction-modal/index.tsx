@@ -162,13 +162,17 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
         <Controller
           name="amount"
           control={control}
-          render={({ field }) => <AmountInput {...field} />}
+          render={({ field }) => (
+            <AmountInput value={field.value} onChange={field.onChange} />
+          )}
         />
 
         <Controller
           name="type"
           control={control}
-          render={({ field }) => <TransactionType {...field} />}
+          render={({ field }) => (
+            <TransactionType value={field.value} onChange={field.onChange} />
+          )}
         />
 
         <GenericInput
@@ -180,7 +184,7 @@ export function TransactionModal({ isOpen }: TransactionModalProps) {
           required
         />
 
-        <datalist id="categories">
+        <datalist id="categories" className="a">
           {categories.map((category) => (
             <option value={category.title} key={category.id} />
           ))}
