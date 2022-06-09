@@ -1,40 +1,14 @@
 import dayjs from 'dayjs'
 import { useMemo, useState } from 'react'
-import { Pie } from 'react-chartjs-2'
-import { ChartOptions } from 'chart.js'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
-import ChartDatalabelsPlugin from 'chartjs-plugin-datalabels'
 import 'dayjs/locale/pt-br'
 
 import { NavigationBar } from 'domain/navigation-bar'
+import { SummaryChart } from 'domain/summary-chart'
 import { useTransactions } from 'contexts/transactions'
-
-import { chartFormatter } from 'services/chart'
+import { Summary } from 'interfaces/summary'
 
 import { Header, MainContainer, MonthSwitcher, PieLabel } from './styles'
-
-interface Summary {
-  category: string
-  amount: number
-  color: string
-}
-
-const SummaryPieConfig: ChartOptions = {
-  plugins: {
-    legend: {
-      display: false,
-    },
-    datalabels: {
-      formatter: chartFormatter,
-      color: '#fff',
-      font: {
-        weight: 'bold',
-        size: 16,
-        family: 'Poppins',
-      },
-    },
-  },
-}
 
 export function SummaryPage() {
   const { transactions } = useTransactions()
@@ -42,7 +16,7 @@ export function SummaryPage() {
     return dayjs().startOf('month')
   })
 
-  const summary = useMemo(() => {
+  const summaries = useMemo(() => {
     const summaryObject = transactions.reduce((acc, transaction) => {
       const transactionAmount =
         transaction.amount * (transaction.type === 'deposit' ? 1 : -1)
@@ -107,28 +81,15 @@ export function SummaryPage() {
             <FiArrowRight size={18} />
           </button>
         </MonthSwitcher>
-        {summary.length === 0 ? (
+        {summaries.length === 0 ? (
           <h2 className="emptyTransactions">Não há transações neste mês</h2>
         ) : (
           <>
             <section className="pie-summary">
-              <Pie
-                plugins={[ChartDatalabelsPlugin] as any}
-                options={SummaryPieConfig}
-                data={{
-                  labels: summary.map(({ category }) => category),
-                  datasets: [
-                    {
-                      data: summary.map(({ amount }) => amount),
-                      backgroundColor: summary.map(({ color }) => color),
-                      borderWidth: 0,
-                    },
-                  ],
-                }}
-              />
+              <SummaryChart summaries={summaries} />
             </section>
             <section className="pie-labels-list">
-              {summary.map((summaryCategory) => (
+              {summaries.map((summaryCategory) => (
                 <PieLabel
                   key={summaryCategory.category}
                   color={summaryCategory.color}
