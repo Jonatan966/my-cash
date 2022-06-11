@@ -1,5 +1,5 @@
-import { ChartOptions } from 'chart.js'
-import { chartFormatter } from 'services/chart'
+import { ChartOptions } from "chart.js";
+import { chartFormatter } from "utils/chart";
 
 export const SummaryPieConfig: ChartOptions = {
   plugins: {
@@ -8,12 +8,12 @@ export const SummaryPieConfig: ChartOptions = {
     },
     datalabels: {
       formatter: chartFormatter,
-      color: '#fff',
+      color: "#fff",
       font: {
-        weight: 'bold',
+        weight: "bold",
         size: 16,
-        family: 'Poppins',
+        family: "Poppins",
       },
     },
   },
-}
+};
