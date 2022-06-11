@@ -1,6 +1,6 @@
 import { Context } from "chartjs-plugin-datalabels";
 
-export const chartFormatter: (value: any, context: Context) => any = (
+export const formatChartPercentage: (value: any, context: Context) => any = (
   value,
   ctx
 ) => {
