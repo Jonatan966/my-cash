@@ -1,37 +1,112 @@
-![My Cash](./github/banner.png)
+<div align="center">
+  <img src="./github/banner.png" />
+  <p>
+    Gerencie suas finanças com praticidade!  
+  </p>
+
+  <h4>
+    <a href="https://my-cash.vercel.app/">Acesse o My Cash</a>
+  <span> · </span>
+    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Reportar um Bug</a>
+  <span> · </span>
+    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Sugerir uma Feature</a>
+  </h4>
+</div>
 
 ---
 
-## :computer: Sobre
-Este projeto consiste em um gerenciador de finanças. Nele é possível registrar todas as entradas e saídas de dinheiro, e é possível visualizar o valor total de todas as transações. Para utilizá-lo, basta acessar por [este link](https://my-cash.vercel.app/)
+## :star2: Sobre o Projeto
 
-## :gear: Funcionalidades
-- Login social;
-- Cadastro e listagem de transações;
-- Resumo das transações por categoria e mês, em formato de gráfico;
-- Tema claro e escuro.
+My Cash é um gerenciador de finaças, onde é possível registrar todas as suas transações, organizando por categoria, e visualizar em tempo real um resumo das Entradas e Saídas de dinheiro.
 
-## :camera: Demonstração
-<p align="center">
-  <img src="github/web.gif" width="50%">
-  <img src="github/mobile.gif" width="19%">
-</p>
+### :gear: Funcionalidades
 
+- Autenticação: Utilize seu e-mail do Google para manter seus dados salvos e sincronizados;
+- Gerenciamento completo das suas finanças: Cadastre, remova, edite e visualize todos os seus gastos e ganhos, organizando por categoria;
+- Resumo por categoria: Veja um resumo em forma de gráfico, de todos os seus gastos e ganhos, agrupados por categoria;
+- Tema claro e escuro: Escolha o tema de cores que mais achar confortável;
+- Responsividade: Acesse o My Cash de qualquer lugar, ele é adaptável a diferentes tamanhos de tela.
 
-## :rocket: Como iniciar
-1. Antes de iniciar a aplicação, é necessário instalar todas as dependências necessárias para o seu funcionamento. Para isso, certifique-se de ter o **Yarn** instalado, e em seguida digite este comando no **terminal/cmd**, e aguarde:
-    ```
-    yarn
-    ```
-2. Após o download das dependências, basta digitar este comando que a aplicação será iniciada:
-    ```
-    yarn start
-    ```
+### :space_invader: Tecnologias e Ferramentas Utilizadas
 
-## :alien: Tecnologias
-As tecnologias principais utilizadas neste projeto são as seguintes:
-- React
-- Styled Components
-- Firebase
-- Swiper
-- Chart.JS
+- [Styled Components](https://www.styled-components.com/)
+- [Firebase](https://firebase.google.com/)
+- [ChartJS](https://www.chartjs.org/)
+- [Swiper](https://swiperjs.com/)
+- [React](https://pt-br.reactjs.org/)
+- [Imask](https://github.com/uNmAnNeR/imaskjs/tree/master)
+- [Toastify](https://github.com/fkhadra/react-toastify)
+- [React Hook Form](https://react-hook-form.com/pt)
+- [Axios](https://axios-http.com/ptbr/docs/intro)
+- [Polished](https://polished.js.org/)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [DayJS](https://day.js.org/)
+- [React Modal](https://github.com/reactjs/react-modal)
+
+### :camera: Demonstração
+
+<video src="./github/demonstration.mp4"></video>
+
+### :key: Variáveis de ambiente
+
+Para executar este projeto, você precisará adicionar as seguintes variáveis ​​de ambiente ao seu arquivo .env
+
+```env
+# Credenciais do Firebase
+REACT_APP_API_KEY=
+REACT_APP_AUTH_DOMAIN=
+REACT_APP_PROJECT_ID=
+REACT_APP_STORAGE_BUCKET=
+REACT_APP_MESSAGING_SENDER_ID=
+REACT_APP_APP_ID=
+
+NODE_PATH="./src"
+```
+
+## :toolbox: Como iniciar
+
+### :bangbang: Pré-requisitos
+
+Este projeto utiliza o Yarn como gerenciador de pacotes
+
+```bash
+ npm install --global yarn
+```
+
+### 🏃 Executar localmente
+
+Clone o projeto
+
+```bash
+git clone https://github.com/Jonatan966/my-cash.git
+```
+
+Vá para o diretório do projeto
+
+```bash
+cd my-cash
+```
+
+Instale as dependências
+
+```bash
+yarn install
+```
+
+Inicie a aplicação
+
+```bash
+yarn start
+```
+
+## :compass: Roadmap
+
+É possível acompanhar o progresso da aplicação por meio [desse board](https://github.com/Jonatan966/my-cash/projects/1)
+
+## :warning: License
+
+Consulte o arquivo [LICENSE.md](./LICENSE.md) para mais informações.
+
+## :handshake: Contato
+
+Jonatan Frederico - [Perfil do Linkedin](https://www.linkedin.com/in/jonatan-frederico/) - [jonatanfrederico@gmail.com](jonatanfrederico@gmail.com)
