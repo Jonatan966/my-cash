@@ -1,5 +1,5 @@
-import { ChartOptions } from "chart.js";
-import { formatChartPercentage } from "utils/format-chart-percentage";
+import { ChartOptions } from 'chart.js'
+import { formatChartPercentage } from 'utils/format-chart-percentage'
 
 export const SummaryPieConfig: ChartOptions = {
   plugins: {
@@ -8,12 +8,12 @@ export const SummaryPieConfig: ChartOptions = {
     },
     datalabels: {
       formatter: formatChartPercentage,
-      color: "#fff",
+      color: '#fff',
       font: {
-        weight: "bold",
+        weight: 'bold',
         size: 16,
-        family: "Poppins",
+        family: 'Poppins',
       },
     },
   },
-};
+}
