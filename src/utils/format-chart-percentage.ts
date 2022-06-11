@@ -1,6 +1,9 @@
 import { Context } from 'chartjs-plugin-datalabels'
 
-export const chartFormatter: ((value: any, context: Context) => any) = (value, ctx) => {
+export const formatChartPercentage: (value: any, context: Context) => any = (
+  value,
+  ctx
+) => {
   let sum = 0
   let dataArr = ctx.chart.data.datasets[0].data
   dataArr.map((data) => {
