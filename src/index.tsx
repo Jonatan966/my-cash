@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { App } from './App'
+import { App } from './app'
 
-import * as ServiceWorkerRegistration from './serviceWorkerRegistration'
+import * as ServiceWorkerRegistration from './service-worker-registration'
 
 ReactDOM.render(
   <React.StrictMode>

@@ -1,0 +1,22 @@
+.modalContent {
+  width: 100%;
+  max-width: 576px;
+  position: relative;
+  border-radius: 0.25rem;
+  border-radius: 1rem 1rem 0 0;
+
+  margin: 0 1rem;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modalContent button:not(:last-child) {
+  height: 4.25rem;
+  font-weight: bold;
+}
+
+.modalContent button {
+  border-radius: 0;
+}

@@ -1,10 +1,10 @@
 {
-  "name": "dt-money" , 
-  "background_color": "#e76f51", 
+  "name": "My Cash",
+  "background_color": "#e76f51",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": ".",
- 
+
   "icons": [
     {
       "src": "icons/icon-72.png",
