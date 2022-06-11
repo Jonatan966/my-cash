@@ -1,4 +1,4 @@
-import { transparentize, darken } from 'polished'
+import { transparentize } from 'polished'
 import styled from 'styled-components'
 
 import { SelectableButtonProps } from './types'
@@ -20,7 +20,7 @@ export const Container = styled.button<SelectableButtonProps>`
   transition: all 0.2s;
 
   &:hover {
-    border-color: ${(ctx) => darken(0.2, ctx.theme.colors[ctx.activeColor])};
+    border-color: ${(ctx) => ctx.theme.colors[ctx.activeColor]};
   }
 
   span {
