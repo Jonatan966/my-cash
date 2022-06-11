@@ -109,4 +109,4 @@ Consulte o arquivo [LICENSE.md](./LICENSE.md) para mais informações.
 
 ## :handshake: Contato
 
-Jonatan Frederico - [Perfil do Linkedin](https://www.linkedin.com/in/jonatan-frederico/) - [jonatanfrederico@gmail.com](jonatanfrederico@gmail.com)
+Jonatan Frederico - [Perfil do Linkedin](https://www.linkedin.com/in/jonatan-frederico/) - [jonatanfrederico@gmail.com](mailto:jonatanfrederico@gmail.com)
