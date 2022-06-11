@@ -1,5 +1,5 @@
 import { ChartOptions } from "chart.js";
-import { formatChartPercentage } from "utils/chart";
+import { formatChartPercentage } from "utils/format-chart-percentage";
 
 export const SummaryPieConfig: ChartOptions = {
   plugins: {
