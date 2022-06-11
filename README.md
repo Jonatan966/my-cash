@@ -45,7 +45,17 @@ My Cash é um gerenciador de finaças, onde é possível registrar todas as suas
 
 ### :camera: Demonstração
 
-<video src="./github/demonstration.mp4"></video>
+https://user-images.githubusercontent.com/37812781/173201281-e23b32be-0c0e-46e4-942e-8937111e3b10.mp4
+
+## :toolbox: Como iniciar
+
+### :bangbang: Pré-requisitos
+
+Este projeto utiliza o Yarn como gerenciador de pacotes
+
+```bash
+ npm install --global yarn
+```
 
 ### :key: Variáveis de ambiente
 
@@ -61,16 +71,6 @@ REACT_APP_MESSAGING_SENDER_ID=
 REACT_APP_APP_ID=
 
 NODE_PATH="./src"
-```
-
-## :toolbox: Como iniciar
-
-### :bangbang: Pré-requisitos
-
-Este projeto utiliza o Yarn como gerenciador de pacotes
-
-```bash
- npm install --global yarn
 ```
 
 ### 🏃 Executar localmente
