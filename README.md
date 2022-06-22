@@ -7,9 +7,9 @@
   <h4>
     <a href="https://my-cash.vercel.app/">Acesse o My Cash</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Reportar um Bug</a>
+    <a href="https://github.com/Jonatan966/my-cash/issues">Reportar um Bug</a>
   <span> · </span>
-    <a href="https://github.com/Louis3797/awesome-readme-template/issues/">Sugerir uma Feature</a>
+    <a href="https://github.com/Jonatan966/my-cash/issues">Sugerir uma Feature</a>
   </h4>
 </div>
 
