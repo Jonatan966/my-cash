@@ -45,4 +45,12 @@ export const GlobalStyle = createGlobalStyle`
     opacity: 100;
     transform: translateY(-15%);
   }
+
+  a {
+    text-decoration: none;
+
+    > * {
+      width: 100%;
+    }
+  }
 `

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { FiLogOut, FiSettings } from 'react-icons/fi'
+import { FiLogOut, FiMessageCircle, FiSettings } from 'react-icons/fi'
 
 import { Button } from 'components/button'
 import { ThemeSwitcher } from 'domain/theme-switcher'
@@ -45,6 +45,12 @@ export function OptionsModal() {
         >
           <FiLogOut size={24} /> <span>Desconectar-se</span>
         </Button>
+        <a href={process.env.REACT_APP_CONTACT_FORM_URL}>
+          <Button backgroundColor="background" withIcon>
+            <FiMessageCircle size={24} />
+            <span>Relatar uma sugestão ou bug</span>
+          </Button>
+        </a>
         <ThemeSwitcher />
         <hr />
         <Button
